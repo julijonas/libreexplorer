@@ -1,0 +1,72 @@
+<!--
+  Copyright 2015 Julijonas Kikutis
+
+  This file is part of Libre Explorer.
+
+  Libre Explorer is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  Libre Explorer is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+
+    <string name="about">Über</string>
+    <string name="about_app">Über Libre Explorer</string>
+    <string name="advanced">Erweiterte</string>
+    <string name="always_elevated">Immer als Root ausführen</string>
+    <string name="always_elevated_summary">Deaktiviert Höhe auf Anfrage</string>
+    <string name="app_description">Dateimanager für Android</string>
+    <string name="bookmark_external">Externer Speicher</string>
+    <string name="app_name">Libre Explorer</string>
+    <string name="bookmark_internal">Interner Speicher</string>
+    <string name="bookmark_root">Stammverzeichnis</string>
+    <string name="bookmark_sd_card">SD-Karte</string>
+    <string name="bookmark_system">System</string>
+    <string name="broken_link">Gebrochene symbolischen Verweis</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="clip">Festklammern</string>
+    <string name="confirm_deletion">Löschen bestätigen</string>
+    <string name="confirm_deletion_summary">Bitten Sie um eine Bestätigung vor dem Löschen</string>
+    <string name="delete">Löschen</string>
+    <plurals name="delete_files">
+        <item quantity="one">„%2$s“ endgültig löschen?</item>
+        <item quantity="other">%1$d Dateien endgültig löschen?</item>
+    </plurals>
+    <string name="directory_up">Hoch</string>
+    <string name="ok">OK</string>
+    <string name="elevation_error">Könnte Root Rechte nicht bekommen</string>
+    <string-array name="file_categories">
+        <item>Text</item>
+        <item>Ton</item>
+        <item>Bild</item>
+        <item>Video</item>
+        <item>Andere</item>
+    </string-array>
+    <string name="file_image">Datei-Bild</string>
+    <plurals name="files_selected">
+        <item quantity="one">%d Datei ausgewählt</item>
+        <item quantity="other">%d Dateien ausgewählt</item>
+    </plurals>
+    <string name="open_as">Öffnen als</string>
+    <string name="open_with">Öffnen mit</string>
+    <string name="open_with_more">Mehr</string>
+    <string name="settings">Einstellungen</string>
+    <string name="sort_by">Sortieren nach</string>
+    <string-array name="sort_fields">
+        <item>Name</item>
+        <item>Größe</item>
+        <item>Erweiterung</item>
+        <item>Geändert</item>
+    </string-array>
+    <string name="unknown_error">Unbekannter Befehl Fehler</string>
+
+</resources>

@@ -1,0 +1,74 @@
+<!--
+  Copyright 2015 Julijonas Kikutis
+
+  This file is part of Libre Explorer.
+
+  Libre Explorer is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  Libre Explorer is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+
+    <string name="app_name">Libre Explorer</string>
+    <string name="about">Apie</string>
+    <string name="about_app">Apie Libre Explorer</string>
+    <string name="advanced">Sudėtingiau</string>
+    <string name="always_elevated">Visada paleisti root teisėmis</string>
+    <string name="always_elevated_summary">Išjungti teisių pakėlimą tik poreikiui esant</string>
+    <string name="app_description">Failų tvarkyklė Android sistemai</string>
+    <string name="bookmark_external">Išorinė atmintis</string>
+    <string name="bookmark_internal">Vidinė atmintis</string>
+    <string name="bookmark_root">Šakninis katalogas</string>
+    <string name="bookmark_sd_card">SD kortelė</string>
+    <string name="bookmark_system">Sistema</string>
+    <string name="broken_link">Sulaužytas simbolinis ryšys</string>
+    <string name="cancel">Atšaukti</string>
+    <string name="clip">Iškirpti</string>
+    <string name="confirm_deletion">Pavirtinti ištrynimą</string>
+    <string name="confirm_deletion_summary">Klausti patvirtinimo prieš ištrinant</string>
+    <string name="delete">Ištrinti</string>
+    <plurals name="delete_files">
+        <item quantity="one">Visiškai ištrinti „%2$s“?</item>
+        <item quantity="few">Visiškai ištrinti %1$d failus?</item>
+        <item quantity="other">Visiškai ištrinti %1$d failų?</item>
+    </plurals>
+    <string name="directory_up">Aukštyn</string>
+    <string name="elevation_error">Nepavyko gauti root teisių</string>
+    <string-array name="file_categories">
+        <item>Tekstą</item>
+        <item>Garsą</item>
+        <item>Paveikslą</item>
+        <item>Video</item>
+        <item>Kita</item>
+    </string-array>
+    <string name="file_image">Failo paveiksliukas</string>
+    <plurals name="files_selected">
+        <item quantity="one">Pasirinktas %d failas</item>
+        <item quantity="few">Pasirinkti %d failai</item>
+        <item quantity="other">Pasirinkta %d failų</item>
+    </plurals>
+    <string name="ok">Gerai</string>
+    <string name="open_as">Atidaryti kaip</string>
+    <string name="open_with">Atidaryti su</string>
+    <string name="open_with_more">Daugiau</string>
+    <string name="settings">Nustatymai</string>
+    <string name="sort_by">Išdėlioti pagal</string>
+    <string-array name="sort_fields">
+        <item>Pavadinimą</item>
+        <item>Dydį</item>
+        <item>Plėtinį</item>
+        <item>Pakeitimą</item>
+    </string-array>
+    <string name="unknown_error">Nežinoma komandos klaida</string>
+
+</resources>

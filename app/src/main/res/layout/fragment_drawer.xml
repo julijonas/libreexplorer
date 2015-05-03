@@ -1,0 +1,46 @@
+<!--
+  Copyright 2015 Julijonas Kikutis
+
+  This file is part of Libre Explorer.
+
+  Libre Explorer is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  Libre Explorer is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/app_primary"
+              android:clickable="true"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/drawer_device_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/app_accent"
+        android:drawablePadding="10dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="35dp"
+        android:textColor="@color/light"
+        android:textSize="20sp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/drawer_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"/>
+
+</LinearLayout>

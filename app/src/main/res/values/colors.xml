@@ -1,0 +1,31 @@
+<!--
+  Copyright 2015 Julijonas Kikutis
+
+  This file is part of Libre Explorer.
+
+  Libre Explorer is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  Libre Explorer is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+
+    <color name="app_primary">#ff336699</color>
+    <color name="app_primary_dark">#ff2c5886</color>
+    <color name="app_accent">#ff996633</color>
+    <color name="app_action">#ffdaa12a</color>
+
+    <color name="light">#ffc6c6c6</color>
+    <color name="dark_pressed">#ff2c5886</color>
+    <color name="light_pressed">#ffbebebe</color>
+
+</resources>
