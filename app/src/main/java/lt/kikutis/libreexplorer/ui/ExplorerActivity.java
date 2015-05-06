@@ -28,6 +28,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,7 +62,6 @@ public class ExplorerActivity extends AppCompatActivity implements
     private DirectoryFragment mDirectoryFragment;
     private DrawerFragment mDrawerFragment;
 
-    private View mDrawerView;
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
 
@@ -135,7 +135,6 @@ public class ExplorerActivity extends AppCompatActivity implements
         //noinspection ConstantConditions
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        mDrawerView = findViewById(R.id.fragment_drawer);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
@@ -219,7 +218,9 @@ public class ExplorerActivity extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
-        if (mActionMode == null && mHistory.hasBack()) {
+        if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
+            mDrawerLayout.closeDrawer(Gravity.START);
+        } else if (mActionMode == null && mHistory.hasBack()) {
             navigateBack();
         } else {
             super.onBackPressed();
@@ -283,7 +284,7 @@ public class ExplorerActivity extends AppCompatActivity implements
     private void ensureCleanState() {
         mActionModeOffWhenDrawerOpen = false;
         mDirectoryFragment.getChosenPaths().clear();
-        mDrawerLayout.closeDrawer(mDrawerView);
+        mDrawerLayout.closeDrawer(Gravity.START);
     }
 
     private String getChosenCountSubtitle() {
