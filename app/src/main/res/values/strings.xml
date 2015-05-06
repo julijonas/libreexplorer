@@ -62,7 +62,7 @@
     <string name="clip">Clip</string>
     <string name="delete">Delete</string>
     <plurals name="delete_files">
-        <item quantity="one">Delete "%2$s" permanently?</item>
+        <item quantity="one">Delete \"%2$s\" permanently?</item>
         <item quantity="other">Delete %1$d files permanently?</item>
     </plurals>
 
