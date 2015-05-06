@@ -37,6 +37,11 @@
             android:key="@string/key_always_elevated"
             android:summary="@string/always_elevated_summary"
             android:title="@string/always_elevated"/>
+        <CheckBoxPreference
+            android:defaultValue="@bool/default_show_hidden_files"
+            android:key="@string/key_show_hidden_files"
+            android:summary="@string/show_hidden_files_summary"
+            android:title="@string/show_hidden_files"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

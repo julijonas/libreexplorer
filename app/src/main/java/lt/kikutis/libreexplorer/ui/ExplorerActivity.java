@@ -55,6 +55,8 @@ public class ExplorerActivity extends AppCompatActivity implements
     private static final String STATE_HISTORY = "history";
     private static final String STATE_CLIPBOARD = "clipboard";
 
+    private static final int ACTIVITY_SETTINGS = 1;
+
     private PathHistory mHistory;
     private Clipboard mClipboard;
 
@@ -207,13 +209,24 @@ public class ExplorerActivity extends AppCompatActivity implements
                 fragment.show(getSupportFragmentManager(), null);
                 break;
             case R.id.action_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
+                startActivityForResult(new Intent(this, SettingsActivity.class), ACTIVITY_SETTINGS);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
         }
         closeOptionsMenu();
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ACTIVITY_SETTINGS) {
+            if (resultCode == SettingsActivity.RESULT_RELOAD_DIRECTORY) {
+                reloadDirectory();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override
@@ -311,9 +324,14 @@ public class ExplorerActivity extends AppCompatActivity implements
     }
 
     private void reloadFragments() {
+        reloadDirectory();
         PathVisit pathVisit = mHistory.current();
-        mDirectoryFragment.loadPath(pathVisit.getPath(), pathVisit.getPosition());
         mBreadcrumbsFragment.loadPath(pathVisit.getPath());
         mDrawerFragment.loadPath(pathVisit.getPath());
+    }
+
+    private void reloadDirectory() {
+        PathVisit pathVisit = mHistory.current();
+        mDirectoryFragment.loadPath(pathVisit.getPath(), pathVisit.getPosition());
     }
 }

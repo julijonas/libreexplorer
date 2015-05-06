@@ -46,7 +46,15 @@ public class SettingsFragment extends PreferenceFragment {
         findPreference(getString(R.string.key_always_elevated)).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                return Commands.getInstance().isValidAlwaysElevated((Boolean) newValue);
+                return Commands.getInstance().isValidAlwaysElevated((boolean) newValue);
+            }
+        });
+
+        findPreference(getString(R.string.key_show_hidden_files)).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                getActivity().setResult(SettingsActivity.RESULT_RELOAD_DIRECTORY);
+                return true;
             }
         });
     }

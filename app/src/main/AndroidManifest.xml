@@ -17,8 +17,9 @@
   along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<manifest package="lt.kikutis.libreexplorer"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest
+    package="lt.kikutis.libreexplorer"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -39,7 +40,11 @@
         </activity>
         <activity
             android:name=".ui.SettingsActivity"
-            android:label="@string/settings"/>
+            android:label="@string/settings">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.ExplorerActivity"/>
+        </activity>
     </application>
 
 </manifest>

@@ -86,6 +86,8 @@
     <string name="always_elevated_summary">Disable elevation on demand</string>
     <string name="confirm_deletion">Confirm deletion</string>
     <string name="confirm_deletion_summary">Ask for confirmation before deleting</string>
+    <string name="show_hidden_files">Show hidden files</string>
+    <string name="show_hidden_files_summary">Show files starting with dot</string>
 
     <string name="copying" translatable="false">Copyright 2015 Julijonas Kikutis
         \n\nLibre Explorer is free software: you can redistribute it and/or modify

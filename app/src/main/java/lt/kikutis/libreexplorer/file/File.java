@@ -123,6 +123,10 @@ public class File {
         return mBrokenLink;
     }
 
+    public boolean isHidden() {
+        return mName.charAt(0) == '.';
+    }
+
     public void setFinalTargetDetails(String finalTargetBits, String finalTargetPath) {
         mFinalBits = finalTargetBits;
         mFinalPath = finalTargetPath;

@@ -28,6 +28,8 @@ import lt.kikutis.libreexplorer.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    public static final int RESULT_RELOAD_DIRECTORY = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

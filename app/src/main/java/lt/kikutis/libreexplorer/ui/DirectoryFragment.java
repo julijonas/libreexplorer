@@ -20,7 +20,9 @@
 package lt.kikutis.libreexplorer.ui;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -111,15 +113,20 @@ public class DirectoryFragment extends Fragment implements View.OnClickListener,
     }
 
     public void loadPath(String path, final int position) {
+        final boolean showHidden = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(
+                getString(R.string.key_show_hidden_files),
+                getResources().getBoolean(R.bool.default_show_hidden_files));
         Commands.getInstance().list(path, new Commands.OnListedListener() {
             @Override
             public void onListed(List<File> files) {
                 mFileWrappers = new ArrayList<>(files.size());
                 for (File file : files) {
-                    FileWrapper fileWrapper = new FileWrapper(file);
-                    mFileWrappers.add(fileWrapper);
-                    if (mChosen.contains(file.getPath())) {
-                        fileWrapper.setChosen(true);
+                    if (showHidden || !file.isHidden()) {
+                        FileWrapper fileWrapper = new FileWrapper(file);
+                        mFileWrappers.add(fileWrapper);
+                        if (mChosen.contains(file.getPath())) {
+                            fileWrapper.setChosen(true);
+                        }
                     }
                 }
                 mAdapter.setFileWrappers(mFileWrappers);
