@@ -25,5 +25,5 @@
           android:gravity="center"
           android:paddingLeft="@dimen/breadcrumb_padding"
           android:paddingRight="@dimen/breadcrumb_padding"
-          android:textColor="@color/light"
+          android:textColor="@color/light_text"
           android:textSize="@dimen/abc_text_size_title_material_toolbar"/>

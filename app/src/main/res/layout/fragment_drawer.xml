@@ -20,7 +20,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/app_primary"
               android:clickable="true"
               android:orientation="vertical">
 
@@ -34,13 +33,14 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="35dp"
-        android:textColor="@color/light"
+        android:textColor="@color/light_text"
         android:textSize="20sp"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/drawer_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/drawer_background"
         android:scrollbars="vertical"/>
 
 </LinearLayout>
