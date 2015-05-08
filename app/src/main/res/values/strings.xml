@@ -26,6 +26,7 @@
     <string name="cancel">Cancel</string>
 
     <!-- Directory -->
+    <string name="paste">Paste</string>
     <string name="directory_up">Up</string>
     <string name="broken_link">Broken symbolic link</string>
     <string name="file_image">File image</string>
@@ -59,7 +60,9 @@
         <item quantity="other">%d files selected</item>
     </plurals>
 
-    <string name="clip">Clip</string>
+    <string name="bookmark">Bookmark</string>
+    <string name="cut">Cut</string>
+    <string name="copy">Copy</string>
     <string name="delete">Delete</string>
     <plurals name="delete_files">
         <item quantity="one">Delete \"%2$s\" permanently?</item>
@@ -71,11 +74,14 @@
     <string name="unknown_error">Unknown command error</string>
 
     <!-- Drawer -->
-    <string name="bookmark_root">Root</string>
-    <string name="bookmark_external">External storage</string>
-    <string name="bookmark_sd_card">SD card</string>
-    <string name="bookmark_internal">Internal storage</string>
-    <string name="bookmark_system">System</string>
+    <string name="place_root">Root</string>
+    <string name="place_external">External storage</string>
+    <string name="place_sd_card">SD card</string>
+    <string name="place_internal">Internal storage</string>
+    <string name="place_system">System</string>
+
+    <string name="remove">Remove</string>
+    <string name="remove_item">Remove \"%s\" from drawer?</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>

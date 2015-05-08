@@ -23,6 +23,7 @@ import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,16 +32,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import lt.kikutis.libreexplorer.Bookmarks;
-import lt.kikutis.libreexplorer.Clipboard;
+import java.util.List;
+
 import lt.kikutis.libreexplorer.DeviceUtils;
 import lt.kikutis.libreexplorer.R;
+import lt.kikutis.libreexplorer.menu.Clip;
+import lt.kikutis.libreexplorer.menu.DrawerMenu;
+import lt.kikutis.libreexplorer.menu.Place;
 import lt.kikutis.libreexplorer.ui.adapter.DrawerAdapter;
 
-public class DrawerFragment extends Fragment implements View.OnClickListener {
+public class DrawerFragment extends Fragment implements
+        View.OnClickListener,
+        View.OnLongClickListener,
+        RemoveItemFragment.OnRemoveItemSelectedListener {
 
+    private DrawerMenu mDrawerMenu;
+
+    private OnCopyMoveSelectedListener mOnCopyMoveSelectedListener;
     private DirectoryFragment.OnFileSelectedListener mOnFileSelectedListener;
-    private Bookmarks mBookmarks;
 
     private RecyclerView.LayoutManager mLayoutManager;
     private DrawerAdapter mAdapter;
@@ -59,7 +68,7 @@ public class DrawerFragment extends Fragment implements View.OnClickListener {
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new DrawerAdapter(this);
+        mAdapter = new DrawerAdapter(this, this);
         recyclerView.setAdapter(mAdapter);
 
         return view;
@@ -68,32 +77,74 @@ public class DrawerFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        mOnCopyMoveSelectedListener = (OnCopyMoveSelectedListener) activity;
         mOnFileSelectedListener = (DirectoryFragment.OnFileSelectedListener) activity;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        mOnCopyMoveSelectedListener = null;
         mOnFileSelectedListener = null;
     }
 
     @Override
     public void onClick(View v) {
         int position = mLayoutManager.getPosition(v);
-        mAdapter.choose(v, position);
-        mOnFileSelectedListener.onFileSelected(mBookmarks.get(position).getPath(), true);
+        switch (mAdapter.getItemViewType(position)) {
+            case DrawerAdapter.VIEW_PREDEFINED:
+            case DrawerAdapter.VIEW_PLACE:
+                mAdapter.choose(v, position);
+                mOnFileSelectedListener.onFileSelected(((Place) mDrawerMenu.get(position)).getPath(), true);
+                break;
+            case DrawerAdapter.VIEW_CLIP:
+                Clip clip = (Clip) mDrawerMenu.get(position);
+                mOnCopyMoveSelectedListener.onCopyMoveSelected(clip.getFiles(), clip.isCut());
+                break;
+        }
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        int position = mLayoutManager.getPosition(v);
+        switch (mAdapter.getItemViewType(position)) {
+            case DrawerAdapter.VIEW_CLIP:
+            case DrawerAdapter.VIEW_PLACE:
+                DialogFragment fragment = RemoveItemFragment.newInstance(mDrawerMenu.get(position).getName(), position);
+                fragment.setTargetFragment(this, 0);
+                fragment.show(getFragmentManager(), null);
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    @Override
+    public void onRemoveItemSelected(int position) {
+        mDrawerMenu.remove(position);
+        mAdapter.notifyItemRemoved(position);
     }
 
     public void loadPath(String path) {
         mAdapter.setCurrentPath(path);
     }
 
-    public void loadData(Bookmarks bookmarks, Clipboard clipboard) {
-        mBookmarks = bookmarks;
-        mAdapter.setDataSet(mBookmarks, clipboard);
+    public void loadDrawerMenu(DrawerMenu drawerMenu) {
+        mDrawerMenu = drawerMenu;
+        mAdapter.setDrawerMenu(mDrawerMenu);
     }
 
-    public void notifyDataSetChanged() {
-        mAdapter.notifyDataSetChanged();
+    public void add(Clip clip) {
+        mDrawerMenu.add(clip);
+        mAdapter.notifyItemInserted(mDrawerMenu.getSize());
+    }
+
+    public void add(Place place) {
+        mDrawerMenu.add(place);
+        mAdapter.notifyItemInserted(mDrawerMenu.getPlacesSize());
+    }
+
+    public interface OnCopyMoveSelectedListener {
+        void onCopyMoveSelected(List<String> files, boolean move);
     }
 }

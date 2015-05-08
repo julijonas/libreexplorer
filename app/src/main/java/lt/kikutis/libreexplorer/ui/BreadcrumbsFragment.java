@@ -32,7 +32,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import lt.kikutis.libreexplorer.Bookmark;
+import lt.kikutis.libreexplorer.menu.Place;
 import lt.kikutis.libreexplorer.DeviceUtils;
 import lt.kikutis.libreexplorer.PathUtils;
 import lt.kikutis.libreexplorer.R;
@@ -66,13 +66,13 @@ public class BreadcrumbsFragment extends Fragment {
 
     public void loadPath(String path) {
         mLinearLayout.removeAllViews();
-        List<Bookmark> breadcrumbs = PathUtils.getBreadcrumbs(path);
+        List<Place> breadcrumbs = PathUtils.getBreadcrumbs(path);
 
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         int rootPadding = getResources().getDimensionPixelSize(R.dimen.root_breadcrumb_padding);
 
         for (int i = 0; i < breadcrumbs.size(); i++) {
-            final Bookmark breadcrumb = breadcrumbs.get(i);
+            final Place breadcrumb = breadcrumbs.get(i);
 
             TextView v = (TextView) inflater.inflate(R.layout.item_breadcrumb, mLinearLayout, false);
 

@@ -20,11 +20,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_file_clip"
-        android:title="@string/clip"
+        android:id="@+id/action_file_cut"
+        android:title="@string/cut"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_file_copy"
+        android:title="@string/copy"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_file_delete"
         android:title="@string/delete"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_file_bookmark"
+        android:title="@string/bookmark"
         app:showAsAction="ifRoom"/>
 </menu>

@@ -26,39 +26,38 @@ import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 
-import lt.kikutis.libreexplorer.Bookmarks;
-import lt.kikutis.libreexplorer.Clipboard;
 import lt.kikutis.libreexplorer.R;
+import lt.kikutis.libreexplorer.menu.DrawerMenu;
+import lt.kikutis.libreexplorer.menu.Place;
 
 public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder> {
 
+    public static final int VIEW_PREDEFINED = 0;
+    public static final int VIEW_PLACE = 1;
+    public static final int VIEW_CLIP = 2;
+
     private static final int NO_CURRENT_PLACE = -1;
 
-    private static final int VIEW_PLACE = 0;
-    private static final int VIEW_BOOKMARK = 1;
-    private static final int VIEW_CLIP = 2;
-
     private View.OnClickListener mOnClickListener;
-
-    private Bookmarks mBookmarks;
-    private Clipboard mClipboard;
+    private View.OnLongClickListener mOnLongClickListener;
+    private DrawerMenu mDrawerMenu;
 
     private int mChosenPosition;
 
-    public DrawerAdapter(View.OnClickListener onClickListener) {
+    public DrawerAdapter(View.OnClickListener onClickListener, View.OnLongClickListener onLongClickListener) {
         mOnClickListener = onClickListener;
+        mOnLongClickListener = onLongClickListener;
     }
 
-    public void setDataSet(Bookmarks bookmarks, Clipboard clipboard) {
-        mBookmarks = bookmarks;
-        mClipboard = clipboard;
+    public void setDrawerMenu(DrawerMenu drawerMenu) {
+        mDrawerMenu = drawerMenu;
     }
 
     public void setCurrentPath(String path) {
         int previousPosition = mChosenPosition;
         mChosenPosition = NO_CURRENT_PLACE;
-        for (int i = 0; i < mBookmarks.size(); i++) {
-            if (mBookmarks.get(i).getPath().equals(path)) {
+        for (int i = 0; i < mDrawerMenu.getPlacesSize(); i++) {
+            if (((Place) mDrawerMenu.get(i)).getPath().equals(path)) {
                 mChosenPosition = i;
                 break;
             }
@@ -81,38 +80,29 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v;
-        switch (viewType) {
-            case VIEW_PLACE:
-            case VIEW_BOOKMARK:
-                v = inflater.inflate(R.layout.item_drawer_bookmark, parent, false);
-                v.setOnClickListener(mOnClickListener);
-                break;
-            default:
-                v = inflater.inflate(R.layout.item_drawer_clip, parent, false);
-                break;
-        }
+        View v = inflater.inflate(viewType == VIEW_PREDEFINED || viewType == VIEW_PLACE ?
+                        R.layout.item_drawer_place : R.layout.item_drawer_clip,
+                parent, false);
+        v.setOnClickListener(mOnClickListener);
+        v.setOnLongClickListener(mOnLongClickListener);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        switch (getItemViewType(position)) {
-            case VIEW_PLACE:
-            case VIEW_BOOKMARK:
-                holder.mTextView.setText(mBookmarks.get(position).getName());
-                ((CheckedTextView) holder.mTextView).setChecked(position == mChosenPosition);
-                break;
-            default:
-                holder.mTextView.setText(mClipboard.getNames(getClipPosition(position)));
-                break;
+        holder.mTextView.setText(mDrawerMenu.get(position).getName());
+        int type = getItemViewType(position);
+        if (type == VIEW_PREDEFINED || type == VIEW_PLACE) {
+            ((CheckedTextView) holder.mTextView).setChecked(position == mChosenPosition);
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position < mBookmarks.size()) {
-            return mBookmarks.isPlace(position) ? VIEW_PLACE : VIEW_BOOKMARK;
+        if (position < mDrawerMenu.getPredefinedSize()) {
+            return VIEW_PREDEFINED;
+        } else if (position < mDrawerMenu.getPlacesSize()) {
+            return VIEW_PLACE;
         } else {
             return VIEW_CLIP;
         }
@@ -120,11 +110,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return mBookmarks == null ? 0 : mBookmarks.size() + mClipboard.size();
-    }
-
-    private int getClipPosition(int adapterPosition) {
-        return adapterPosition - mBookmarks.size();
+        return mDrawerMenu == null ? 0 : mDrawerMenu.getSize();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

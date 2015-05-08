@@ -28,8 +28,12 @@
     <bool name="default_confirm_deletion">true</bool>
     <bool name="default_show_hidden_files">true</bool>
 
-    <string name="key_bookmarks_size" translatable="false">bookmarks_size</string>
-    <string name="key_bookmarks_name" translatable="false">bookmarks_name_%d</string>
-    <string name="key_bookmarks_path" translatable="false">bookmarks_path_%d</string>
+    <string name="key_places_size" translatable="false">places_size</string>
+    <string name="key_place_name" translatable="false">place_%d_name</string>
+    <string name="key_place_path" translatable="false">place_%d_path</string>
+
+    <string name="key_clips_size" translatable="false">clips_size</string>
+    <string name="key_clip_size" translatable="false">clip_%d_size</string>
+    <string name="key_clip_path" translatable="false">clip_%d_path_%d</string>
 
 </resources>

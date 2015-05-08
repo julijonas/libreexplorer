@@ -26,11 +26,11 @@
     <string name="always_elevated">Visada paleisti root teisėmis</string>
     <string name="always_elevated_summary">Išjungti teisių pakėlimą tik poreikiui esant</string>
     <string name="app_description">Failų tvarkyklė Android sistemai</string>
-    <string name="bookmark_external">Išorinė atmintis</string>
-    <string name="bookmark_internal">Vidinė atmintis</string>
-    <string name="bookmark_root">Šakninis katalogas</string>
-    <string name="bookmark_sd_card">SD kortelė</string>
-    <string name="bookmark_system">Sistema</string>
+    <string name="place_external">Išorinė atmintis</string>
+    <string name="place_internal">Vidinė atmintis</string>
+    <string name="place_root">Šakninis katalogas</string>
+    <string name="place_sd_card">SD kortelė</string>
+    <string name="place_system">Sistema</string>
     <string name="broken_link">Sulaužytas simbolinis ryšys</string>
     <string name="cancel">Atšaukti</string>
     <string name="clip">Iškirpti</string>

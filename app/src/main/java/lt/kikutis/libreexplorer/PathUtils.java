@@ -25,6 +25,8 @@ import android.webkit.MimeTypeMap;
 import java.util.ArrayList;
 import java.util.List;
 
+import lt.kikutis.libreexplorer.menu.Place;
+
 public class PathUtils {
 
     private static final String TAG = "PathUtils";
@@ -95,17 +97,17 @@ public class PathUtils {
         return getMimeTypeFromName(getNameFromPath(path));
     }
 
-    public static List<Bookmark> getBreadcrumbs(String path) {
-        List<Bookmark> breadcrumbs = new ArrayList<>();
-        breadcrumbs.add(new Bookmark("/", "/"));
+    public static List<Place> getBreadcrumbs(String path) {
+        List<Place> breadcrumbs = new ArrayList<>();
+        breadcrumbs.add(new Place("/", "/"));
         if (!path.equals("/")) {
             for (int i = 1; i < path.length(); i++) {
                 if (path.charAt(i) == '/') {
                     String subPath = path.substring(0, i);
-                    breadcrumbs.add(new Bookmark(getNameFromPath(subPath), subPath));
+                    breadcrumbs.add(new Place(getNameFromPath(subPath), subPath));
                 }
             }
-            breadcrumbs.add(new Bookmark(getNameFromPath(path), path));
+            breadcrumbs.add(new Place(getNameFromPath(path), path));
         }
         return breadcrumbs;
     }

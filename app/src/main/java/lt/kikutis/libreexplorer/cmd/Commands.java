@@ -105,6 +105,18 @@ public class Commands {
         });
     }
 
+    public void copy(List<String> paths, String destination, final OnFinishListener listener) {
+        mShellSession.exec(makeCommand("cp", paths, destination), true, new ShellSession.OnCommandFinishListener() {
+            @Override
+            public void onCommandFinish(List<String> lines, int exitCode) {
+                if (exitCode != 0) {
+                    reportError(lines, exitCode);
+                }
+                listener.onFinish();
+            }
+        });
+    }
+
     public void list(String path, OnListedListener listener) {
         new ListCommand(mShellSession, path, listener).list();
     }

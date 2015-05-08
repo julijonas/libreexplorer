@@ -25,12 +25,12 @@
     <string name="always_elevated">Immer als Root ausführen</string>
     <string name="always_elevated_summary">Deaktiviert Höhe auf Anfrage</string>
     <string name="app_description">Dateimanager für Android</string>
-    <string name="bookmark_external">Externer Speicher</string>
+    <string name="place_external">Externer Speicher</string>
     <string name="app_name">Libre Explorer</string>
-    <string name="bookmark_internal">Interner Speicher</string>
-    <string name="bookmark_root">Stammverzeichnis</string>
-    <string name="bookmark_sd_card">SD-Karte</string>
-    <string name="bookmark_system">System</string>
+    <string name="place_internal">Interner Speicher</string>
+    <string name="place_root">Stammverzeichnis</string>
+    <string name="place_sd_card">SD-Karte</string>
+    <string name="place_system">System</string>
     <string name="broken_link">Gebrochene symbolischen Verweis</string>
     <string name="cancel">Abbrechen</string>
     <string name="clip">Festklammern</string>

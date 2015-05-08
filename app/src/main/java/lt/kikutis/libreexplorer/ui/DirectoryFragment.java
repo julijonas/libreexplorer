@@ -20,7 +20,6 @@
 package lt.kikutis.libreexplorer.ui;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;

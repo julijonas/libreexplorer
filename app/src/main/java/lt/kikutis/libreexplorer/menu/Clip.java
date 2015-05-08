@@ -17,23 +17,42 @@
  * along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lt.kikutis.libreexplorer;
+package lt.kikutis.libreexplorer.menu;
 
-public class Bookmark {
+import android.app.Application;
 
-    private String mName;
-    private String mPath;
+import java.util.List;
 
-    public Bookmark(String name, String path) {
-        mName = name;
-        mPath = path;
+import lt.kikutis.libreexplorer.PathUtils;
+
+public class Clip implements DrawerMenu.Item {
+
+    private List<String> mFiles;
+    private boolean mCut;
+
+    public Clip(List<String> files) {
+        mFiles = files;
     }
 
+    public Clip(List<String> files, boolean cut) {
+        mFiles = files;
+        mCut = cut;
+    }
+
+    @Override
     public String getName() {
-        return mName;
+        StringBuilder sb = new StringBuilder(PathUtils.getNameFromPath(mFiles.get(0)));
+        for (int i = 1; i < mFiles.size(); i++) {
+            sb.append(", ").append(PathUtils.getNameFromPath(mFiles.get(i)));
+        }
+        return sb.toString();
     }
 
-    public String getPath() {
-        return mPath;
+    public List<String> getFiles() {
+        return mFiles;
+    }
+
+    public boolean isCut() {
+        return mCut;
     }
 }

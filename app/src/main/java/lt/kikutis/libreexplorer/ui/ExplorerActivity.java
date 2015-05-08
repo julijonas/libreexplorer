@@ -36,13 +36,14 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import lt.kikutis.libreexplorer.Bookmarks;
-import lt.kikutis.libreexplorer.Clipboard;
 import lt.kikutis.libreexplorer.PathHistory;
 import lt.kikutis.libreexplorer.PathUtils;
 import lt.kikutis.libreexplorer.PathVisit;
 import lt.kikutis.libreexplorer.R;
 import lt.kikutis.libreexplorer.cmd.Commands;
+import lt.kikutis.libreexplorer.menu.Clip;
+import lt.kikutis.libreexplorer.menu.DrawerMenu;
+import lt.kikutis.libreexplorer.menu.Place;
 
 public class ExplorerActivity extends AppCompatActivity implements
         DirectoryFragment.OnFileSelectedListener,
@@ -50,15 +51,15 @@ public class ExplorerActivity extends AppCompatActivity implements
         OpenAsFragment.OnMimeTypeSelectedListener,
         OpenWithFragment.OnSelectMimeTypeSelectedListener,
         SortByFragment.OnSortFieldSelectedListener,
-        DeleteFragment.OnDeleteSelectedListener {
+        DeleteFragment.OnDeleteSelectedListener,
+        DrawerFragment.OnCopyMoveSelectedListener {
 
     private static final String STATE_HISTORY = "history";
-    private static final String STATE_CLIPBOARD = "clipboard";
 
     private static final int ACTIVITY_SETTINGS = 1;
 
     private PathHistory mHistory;
-    private Clipboard mClipboard;
+    private DrawerMenu mDrawerMenu;
 
     private BreadcrumbsFragment mBreadcrumbsFragment;
     private DirectoryFragment mDirectoryFragment;
@@ -66,6 +67,7 @@ public class ExplorerActivity extends AppCompatActivity implements
 
     private DrawerLayout mDrawerLayout;
     private Toolbar mToolbar;
+    private MenuItem mPasteMenuItem;
 
     private ActionMode mActionMode;
 
@@ -95,20 +97,28 @@ public class ExplorerActivity extends AppCompatActivity implements
 
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            ArrayList<String> paths = mDirectoryFragment.getChosenPaths();
             switch (item.getItemId()) {
-                case R.id.action_file_clip:
-                    mClipboard.add(new ArrayList<>(mDirectoryFragment.getChosenPaths()));
-                    mDrawerFragment.notifyDataSetChanged();  // TODO: Do not refresh whole data set
+                case R.id.action_file_bookmark:
+                    for (String path : paths) {
+                        mDrawerFragment.add(new Place(PathUtils.getNameFromPath(path), path));
+                    }
+                    mode.finish();
+                    break;
+                case R.id.action_file_cut:
+                case R.id.action_file_copy:
+                    mDrawerFragment.add(new Clip(new ArrayList<>(paths), item.getItemId() == R.id.action_file_cut));
+                    mPasteMenuItem.setVisible(true);
                     mode.finish();
                     break;
                 case R.id.action_file_delete:
                     if (PreferenceManager.getDefaultSharedPreferences(ExplorerActivity.this).getBoolean(
                             getString(R.string.key_confirm_deletion),
                             getResources().getBoolean(R.bool.default_confirm_deletion))) {
-                        DialogFragment fragment = DeleteFragment.newInstance(mDirectoryFragment.getChosenPaths());
+                        DialogFragment fragment = DeleteFragment.newInstance(paths);
                         fragment.show(getSupportFragmentManager(), null);
                     } else {
-                        onDeleteSelected(mDirectoryFragment.getChosenPaths());
+                        onDeleteSelected(paths);
                     }
                     break;
                 default:
@@ -168,18 +178,16 @@ public class ExplorerActivity extends AppCompatActivity implements
         mDirectoryFragment = (DirectoryFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_directory);
         mDrawerFragment = (DrawerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_drawer);
 
-        Bookmarks bookmarks = new Bookmarks(this);
+        mDrawerMenu = new DrawerMenu(this);
         if (savedInstanceState == null) {
-            mHistory = new PathHistory(new PathVisit(bookmarks.get(0).getPath()));
-            mClipboard = new Clipboard();
+            mHistory = new PathHistory(new PathVisit(((Place) mDrawerMenu.get(0)).getPath()));
         } else {
             mHistory = savedInstanceState.getParcelable(STATE_HISTORY);
-            mClipboard = savedInstanceState.getParcelable(STATE_CLIPBOARD);
             if (!mDirectoryFragment.getChosenPaths().isEmpty()) {
                 mActionMode = startSupportActionMode(mActionModeCallback);
             }
         }
-        mDrawerFragment.loadData(bookmarks, mClipboard);
+        mDrawerFragment.loadDrawerMenu(mDrawerMenu);
         reloadFragments();
     }
 
@@ -188,12 +196,13 @@ public class ExplorerActivity extends AppCompatActivity implements
         super.onSaveInstanceState(outState);
         mHistory.current().setPosition(mDirectoryFragment.getPosition());
         outState.putParcelable(STATE_HISTORY, mHistory);
-        outState.putParcelable(STATE_CLIPBOARD, mClipboard);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_explorer, menu);
+        mPasteMenuItem = menu.findItem(R.id.action_paste);
+        mPasteMenuItem.setVisible(mDrawerMenu.hasClips());
         return true;
     }
 
@@ -201,6 +210,10 @@ public class ExplorerActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         ensureCleanState();
         switch (item.getItemId()) {
+            case R.id.action_paste:
+                Clip clip = mDrawerMenu.getLastClip();
+                onCopyMoveSelected(clip.getFiles(), clip.isCut());
+                break;
             case R.id.action_directory_up:
                 navigateUp();
                 break;
@@ -222,7 +235,7 @@ public class ExplorerActivity extends AppCompatActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ACTIVITY_SETTINGS) {
             if (resultCode == SettingsActivity.RESULT_RELOAD_DIRECTORY) {
-                reloadDirectory();
+                reloadFragments();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -294,6 +307,25 @@ public class ExplorerActivity extends AppCompatActivity implements
         mActionMode.finish();
     }
 
+    @Override
+    public void onCopyMoveSelected(List<String> files, boolean move) {
+        if (move) {
+            Commands.getInstance().move(files, mHistory.current().getPath(), new Commands.OnFinishListener() {
+                @Override
+                public void onFinish() {
+                    reloadFragments();
+                }
+            });
+        } else {
+            Commands.getInstance().copy(files, mHistory.current().getPath(), new Commands.OnFinishListener() {
+                @Override
+                public void onFinish() {
+                    reloadFragments();
+                }
+            });
+        }
+    }
+
     private void ensureCleanState() {
         mActionModeOffWhenDrawerOpen = false;
         mDirectoryFragment.getChosenPaths().clear();
@@ -324,14 +356,9 @@ public class ExplorerActivity extends AppCompatActivity implements
     }
 
     private void reloadFragments() {
-        reloadDirectory();
-        PathVisit pathVisit = mHistory.current();
-        mBreadcrumbsFragment.loadPath(pathVisit.getPath());
-        mDrawerFragment.loadPath(pathVisit.getPath());
-    }
-
-    private void reloadDirectory() {
         PathVisit pathVisit = mHistory.current();
         mDirectoryFragment.loadPath(pathVisit.getPath(), pathVisit.getPosition());
+        mBreadcrumbsFragment.loadPath(pathVisit.getPath());
+        mDrawerFragment.loadPath(pathVisit.getPath());
     }
 }
