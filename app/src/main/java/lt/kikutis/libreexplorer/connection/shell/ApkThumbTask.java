@@ -17,16 +17,18 @@
  * along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lt.kikutis.libreexplorer.file;
+package lt.kikutis.libreexplorer.connection.shell;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 
+import lt.kikutis.libreexplorer.connection.ThumbFile;
+
 public class ApkThumbTask extends ThumbTask {
 
-    protected ApkThumbTask(File file, Context context, OnThumbFoundListener listener) {
+    protected ApkThumbTask(ThumbFile file, Context context, OnThumbFoundListener listener) {
         super(file, context, listener);
     }
 

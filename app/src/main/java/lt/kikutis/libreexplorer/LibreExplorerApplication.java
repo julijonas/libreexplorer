@@ -21,14 +21,14 @@ package lt.kikutis.libreexplorer;
 
 import android.app.Application;
 
-import lt.kikutis.libreexplorer.cmd.Commands;
+import lt.kikutis.libreexplorer.connection.ConnectionManager;
 
-public class GlobalApplication extends Application {
+public class LibreExplorerApplication extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
-        DeviceUtils.initFromApplication(this);
-        Commands.initFromApplication(this);
+        DeviceUtils.propagateContext(this);
+        ConnectionManager.propagateContext(this);
     }
 }

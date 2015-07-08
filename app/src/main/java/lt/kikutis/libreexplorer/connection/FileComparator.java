@@ -17,11 +17,9 @@
  * along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lt.kikutis.libreexplorer.file;
+package lt.kikutis.libreexplorer.connection;
 
 import java.util.Comparator;
-
-import lt.kikutis.libreexplorer.PathUtils;
 
 public class FileComparator implements Comparator<File> {
 
@@ -82,8 +80,8 @@ public class FileComparator implements Comparator<File> {
     }
 
     private int compareByExtension(File lhs, File rhs) {
-        String lhsExt = PathUtils.getExtensionFromName(lhs.getName());
-        String rhsExt = PathUtils.getExtensionFromName(rhs.getName());
+        String lhsExt = lhs.getExtension();
+        String rhsExt = rhs.getExtension();
         if (lhsExt == null) {
             if (rhsExt == null) {
                 return 0;
@@ -100,6 +98,8 @@ public class FileComparator implements Comparator<File> {
     }
 
     private int compareByModified(File lhs, File rhs) {
-        return lhs.getModified().compareTo(rhs.getName());
+        long lhsMod = lhs.getModified();
+        long rhsMod = rhs.getModified();
+        return lhsMod < rhsMod ? -1 : (lhsMod == rhsMod ? 0 : 1);
     }
 }

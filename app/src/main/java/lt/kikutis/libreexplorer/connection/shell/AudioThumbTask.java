@@ -17,7 +17,7 @@
  * along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lt.kikutis.libreexplorer.file;
+package lt.kikutis.libreexplorer.connection.shell;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -27,9 +27,11 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 
+import lt.kikutis.libreexplorer.connection.ThumbFile;
+
 public class AudioThumbTask extends ThumbTask {
 
-    protected AudioThumbTask(File file, Context context, OnThumbFoundListener listener) {
+    protected AudioThumbTask(ThumbFile file, Context context, OnThumbFoundListener listener) {
         super(file, context, listener);
     }
 

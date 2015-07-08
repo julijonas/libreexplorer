@@ -24,11 +24,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,10 +40,12 @@ import lt.kikutis.libreexplorer.PathHistory;
 import lt.kikutis.libreexplorer.PathUtils;
 import lt.kikutis.libreexplorer.PathVisit;
 import lt.kikutis.libreexplorer.R;
-import lt.kikutis.libreexplorer.cmd.Commands;
 import lt.kikutis.libreexplorer.menu.Clip;
 import lt.kikutis.libreexplorer.menu.DrawerMenu;
 import lt.kikutis.libreexplorer.menu.Place;
+import lt.kikutis.libreexplorer.connection.ConnectionManager;
+import lt.kikutis.libreexplorer.connection.OnFinishListener;
+import lt.kikutis.libreexplorer.connection.Connection;
 
 public class ExplorerActivity extends AppCompatActivity implements
         DirectoryFragment.OnFileSelectedListener,
@@ -52,7 +54,8 @@ public class ExplorerActivity extends AppCompatActivity implements
         OpenWithFragment.OnSelectMimeTypeSelectedListener,
         SortByFragment.OnSortFieldSelectedListener,
         DeleteFragment.OnDeleteSelectedListener,
-        DrawerFragment.OnCopyMoveSelectedListener {
+        DrawerFragment.OnCopyMoveSelectedListener,
+        NewConnectionFragment.OnConnectionSelectedListener {
 
     private static final String STATE_HISTORY = "history";
 
@@ -218,8 +221,11 @@ public class ExplorerActivity extends AppCompatActivity implements
                 navigateUp();
                 break;
             case R.id.action_sort_by:
-                DialogFragment fragment = SortByFragment.newInstance(mDirectoryFragment.getSortField());
-                fragment.show(getSupportFragmentManager(), null);
+                SortByFragment.newInstance(mDirectoryFragment.getSortField())
+                        .show(getSupportFragmentManager(), null);
+                break;
+            case R.id.action_new_connection:
+                new NewConnectionFragment().show(getSupportFragmentManager(), null);
                 break;
             case R.id.action_settings:
                 startActivityForResult(new Intent(this, SettingsActivity.class), ACTIVITY_SETTINGS);
@@ -244,8 +250,8 @@ public class ExplorerActivity extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
-            mDrawerLayout.closeDrawer(Gravity.START);
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
         } else if (mActionMode == null && mHistory.hasBack()) {
             navigateBack();
         } else {
@@ -298,7 +304,7 @@ public class ExplorerActivity extends AppCompatActivity implements
 
     @Override
     public void onDeleteSelected(List<String> paths) {
-        Commands.getInstance().remove(paths, new Commands.OnFinishListener() {
+        ConnectionManager.getInstance().getShellConnection().remove(paths, new OnFinishListener() {
             @Override
             public void onFinish() {
                 reloadFragments();
@@ -310,14 +316,14 @@ public class ExplorerActivity extends AppCompatActivity implements
     @Override
     public void onCopyMoveSelected(List<String> files, boolean move) {
         if (move) {
-            Commands.getInstance().move(files, mHistory.current().getPath(), new Commands.OnFinishListener() {
+            ConnectionManager.getInstance().getShellConnection().move(files, mHistory.current().getPath(), new OnFinishListener() {
                 @Override
                 public void onFinish() {
                     reloadFragments();
                 }
             });
         } else {
-            Commands.getInstance().copy(files, mHistory.current().getPath(), new Commands.OnFinishListener() {
+            ConnectionManager.getInstance().getShellConnection().copy(files, mHistory.current().getPath(), new OnFinishListener() {
                 @Override
                 public void onFinish() {
                     reloadFragments();
@@ -326,10 +332,16 @@ public class ExplorerActivity extends AppCompatActivity implements
         }
     }
 
+    @Override
+    public void onConnectionSelected(Connection connection) {
+        mHistory.addPath("foobar://foo/bar");
+        reloadFragments();
+    }
+
     private void ensureCleanState() {
         mActionModeOffWhenDrawerOpen = false;
         mDirectoryFragment.getChosenPaths().clear();
-        mDrawerLayout.closeDrawer(Gravity.START);
+        mDrawerLayout.closeDrawer(GravityCompat.START);
     }
 
     private String getChosenCountSubtitle() {

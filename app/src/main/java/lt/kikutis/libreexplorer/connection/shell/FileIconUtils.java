@@ -17,7 +17,7 @@
  * along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lt.kikutis.libreexplorer.file;
+package lt.kikutis.libreexplorer.connection.shell;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -28,6 +28,7 @@ import android.util.Log;
 
 import lt.kikutis.libreexplorer.DeviceUtils;
 import lt.kikutis.libreexplorer.R;
+import lt.kikutis.libreexplorer.connection.File;
 
 public class FileIconUtils {
 

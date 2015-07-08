@@ -17,7 +17,12 @@
  * along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lt.kikutis.libreexplorer.file;
+package lt.kikutis.libreexplorer.connection.shell;
+
+import java.text.DateFormat;
+import java.util.Date;
+
+import lt.kikutis.libreexplorer.connection.File;
 
 public class FilePropertyUtils {
 
@@ -26,6 +31,10 @@ public class FilePropertyUtils {
     private static final long BOUND_MIB = BOUND_KIB * BOUND_KIB;
 
     private FilePropertyUtils() {
+    }
+
+    public static String getDate(long milliseconds) {
+        return DateFormat.getDateTimeInstance().format(new Date(milliseconds));
     }
 
     public static String getPermissions(File file) {

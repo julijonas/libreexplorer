@@ -17,7 +17,7 @@
  * along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lt.kikutis.libreexplorer.file;
+package lt.kikutis.libreexplorer.connection.shell;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -25,24 +25,25 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import lt.kikutis.libreexplorer.R;
+import lt.kikutis.libreexplorer.connection.ThumbFile;
 
 public abstract class ThumbTask extends AsyncTask<Void, Void, Drawable> {
 
     private static final String TAG = "ThumbTask";
 
-    private File mFile;
+    private ThumbFile mFile;
     private Context mContext;
     private OnThumbFoundListener mListener;
 
     private String mNewName;
 
-    protected ThumbTask(File file, Context context, OnThumbFoundListener listener) {
+    protected ThumbTask(ThumbFile file, Context context, OnThumbFoundListener listener) {
         mFile = file;
         mContext = context;
         mListener = listener;
     }
 
-    public static ThumbTask getThumbTask(File file, Context context, OnThumbFoundListener listener) {
+    public static ThumbTask getThumbTask(ThumbFile file, Context context, OnThumbFoundListener listener) {
         if (file.isDirectory() || !file.hasExtension()) {
             return null;
         }
@@ -115,7 +116,7 @@ public abstract class ThumbTask extends AsyncTask<Void, Void, Drawable> {
         return mContext;
     }
 
-    protected File getFile() {
+    protected ThumbFile getFile() {
         return mFile;
     }
 

@@ -36,11 +36,10 @@ import java.util.Comparator;
 import java.util.List;
 
 import lt.kikutis.libreexplorer.R;
-import lt.kikutis.libreexplorer.cmd.Commands;
-import lt.kikutis.libreexplorer.file.File;
-import lt.kikutis.libreexplorer.file.FileComparator;
-import lt.kikutis.libreexplorer.file.FileWrapper;
-import lt.kikutis.libreexplorer.file.FileWrapperComparator;
+import lt.kikutis.libreexplorer.connection.ConnectionManager;
+import lt.kikutis.libreexplorer.connection.File;
+import lt.kikutis.libreexplorer.connection.FileComparator;
+import lt.kikutis.libreexplorer.connection.OnFinishListingListener;
 import lt.kikutis.libreexplorer.ui.adapter.DirectoryAdapter;
 import lt.kikutis.libreexplorer.ui.view.CheckableRelativeLayout;
 
@@ -54,7 +53,7 @@ public class DirectoryFragment extends Fragment implements View.OnClickListener,
     private boolean mReverse;
     private ArrayList<String> mChosen;
 
-    private List<FileWrapper> mFileWrappers;
+    private List<File> mFiles;
     private OnFileSelectedListener mOnFileSelectedListener;
     private OnFileChosenListener mOnFileChosenListener;
 
@@ -115,20 +114,18 @@ public class DirectoryFragment extends Fragment implements View.OnClickListener,
         final boolean showHidden = PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(
                 getString(R.string.key_show_hidden_files),
                 getResources().getBoolean(R.bool.default_show_hidden_files));
-        Commands.getInstance().list(path, new Commands.OnListedListener() {
+        ConnectionManager.getInstance().getShellConnection().list(path, new OnFinishListingListener() {
             @Override
-            public void onListed(List<File> files) {
-                mFileWrappers = new ArrayList<>(files.size());
-                for (File file : files) {
+            public void onFinish(List<File> files) {
+                mFiles = files;
+                for (File file : mFiles) {
                     if (showHidden || !file.isHidden()) {
-                        FileWrapper fileWrapper = new FileWrapper(file);
-                        mFileWrappers.add(fileWrapper);
                         if (mChosen.contains(file.getPath())) {
-                            fileWrapper.setChosen(true);
+                            file.setChosen(true);
                         }
                     }
                 }
-                mAdapter.setFileWrappers(mFileWrappers);
+                mAdapter.setFiles(mFiles);
                 refresh(position);
             }
         });
@@ -149,7 +146,7 @@ public class DirectoryFragment extends Fragment implements View.OnClickListener,
         if (mReverse) {
             comp = Collections.reverseOrder(comp);
         }
-        Collections.sort(mFileWrappers, new FileWrapperComparator(comp));
+        Collections.sort(mFiles, comp);
 
         mAdapter.notifyDataSetChanged();
 
@@ -167,22 +164,21 @@ public class DirectoryFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         int position = mLayoutManager.getPosition(v);
-        FileWrapper fileWrapper = mFileWrappers.get(position);
+        File file = mFiles.get(position);
         if (mChosen.isEmpty()) {
-            File file = fileWrapper.getFile();
             if (file.isBrokenLink()) {
                 Toast.makeText(v.getContext(), R.string.broken_link, Toast.LENGTH_SHORT).show();
             } else {
                 mOnFileSelectedListener.onFileSelected(file.getFinalPath(), file.isDirectory());
             }
         } else {
-            fileWrapper.toggleChosen();
-            boolean chosen = fileWrapper.isChosen();
+            file.toggleChosen();
+            boolean chosen = file.isChosen();
             ((CheckableRelativeLayout) v).setChecked(chosen);
             if (chosen) {
-                mChosen.add(fileWrapper.getFile().getPath());
+                mChosen.add(file.getPath());
             } else {
-                mChosen.remove(fileWrapper.getFile().getPath());
+                mChosen.remove(file.getPath());
             }
             mOnFileChosenListener.onFileChosen();
         }
@@ -191,10 +187,10 @@ public class DirectoryFragment extends Fragment implements View.OnClickListener,
     @Override
     public boolean onLongClick(View v) {
         if (mChosen.isEmpty()) {
-            FileWrapper fileWrapper = mFileWrappers.get(mLayoutManager.getPosition(v));
-            fileWrapper.setChosen(true);
+            File file = mFiles.get(mLayoutManager.getPosition(v));
+            file.setChosen(true);
             ((CheckableRelativeLayout) v).setChecked(true);
-            mChosen.add(fileWrapper.getFile().getPath());
+            mChosen.add(file.getPath());
             mOnFileChosenListener.onFileChosen();
             return true;
         }
@@ -207,9 +203,9 @@ public class DirectoryFragment extends Fragment implements View.OnClickListener,
 
     public void clearChosenPaths() {
         mChosen.clear();
-        for (int i = 0; i < mFileWrappers.size(); i++) {
-            if (mFileWrappers.get(i).isChosen()) {
-                mFileWrappers.get(i).setChosen(false);
+        for (int i = 0; i < mFiles.size(); i++) {
+            if (mFiles.get(i).isChosen()) {
+                mFiles.get(i).setChosen(false);
                 mAdapter.notifyItemChanged(i);
             }
         }

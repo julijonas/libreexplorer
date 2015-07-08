@@ -37,7 +37,7 @@ public class DeviceUtils {
     private DeviceUtils() {
     }
 
-    public static void initFromApplication(Context context) {
+    public static void propagateContext(Context context) {
         sExternalPath = Environment.getExternalStorageDirectory().getAbsolutePath();
         sSdCardPath = System.getenv("SECONDARY_STORAGE");
         if (sSdCardPath == null) {
@@ -52,10 +52,10 @@ public class DeviceUtils {
         }
         sInternalPath = "/data/data";
 
-        Log.v(TAG, "initFromApplication: External: " + sExternalPath);
-        Log.v(TAG, "initFromApplication: SD card: " + sSdCardPath);
-        Log.v(TAG, "initFromApplication: System: " + sSystemPath);
-        Log.v(TAG, "initFromApplication: Internal: " + sInternalPath);
+        Log.v(TAG, "propagateContext: External: " + sExternalPath);
+        Log.v(TAG, "propagateContext: SD card: " + sSdCardPath);
+        Log.v(TAG, "propagateContext: System: " + sSystemPath);
+        Log.v(TAG, "propagateContext: Internal: " + sInternalPath);
     }
 
     public static String getExternalPath() {

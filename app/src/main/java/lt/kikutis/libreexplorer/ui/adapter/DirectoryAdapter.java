@@ -30,16 +30,16 @@ import android.widget.TextView;
 import java.util.List;
 
 import lt.kikutis.libreexplorer.R;
-import lt.kikutis.libreexplorer.file.File;
-import lt.kikutis.libreexplorer.file.FileIconUtils;
-import lt.kikutis.libreexplorer.file.FilePropertyUtils;
-import lt.kikutis.libreexplorer.file.FileWrapper;
-import lt.kikutis.libreexplorer.file.ThumbTask;
+import lt.kikutis.libreexplorer.connection.File;
+import lt.kikutis.libreexplorer.connection.ThumbFile;
+import lt.kikutis.libreexplorer.connection.shell.FileIconUtils;
+import lt.kikutis.libreexplorer.connection.shell.FilePropertyUtils;
+import lt.kikutis.libreexplorer.connection.shell.ThumbTask;
 import lt.kikutis.libreexplorer.ui.view.CheckableRelativeLayout;
 
 public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.ViewHolder> {
 
-    private List<FileWrapper> mFileWrappers;
+    private List<File> mFiles;
     private View.OnClickListener mOnClickListener;
     private View.OnLongClickListener mOnLongClickListener;
 
@@ -48,8 +48,8 @@ public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.View
         mOnLongClickListener = onLongClickListener;
     }
 
-    public void setFileWrappers(List<FileWrapper> fileWrappers) {
-        mFileWrappers = fileWrappers;
+    public void setFiles(List<File> files) {
+        mFiles = files;
     }
 
     @Override
@@ -62,17 +62,17 @@ public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.View
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.bindFileWrapper(mFileWrappers.get(position));
+        holder.bindFile(mFiles.get(position));
     }
 
     @Override
     public void onViewDetachedFromWindow(ViewHolder holder) {
-        holder.unbindFileWrapper();
+        holder.unbindFile();
     }
 
     @Override
     public int getItemCount() {
-        return mFileWrappers == null ? 0 : mFileWrappers.size();
+        return mFiles == null ? 0 : mFiles.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -84,7 +84,7 @@ public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.View
         private TextView mText4;
         private ImageView mImage;
 
-        private FileWrapper mFileWrapper;
+        private File mFile;
         private ThumbTask mThumbTask;
 
         public ViewHolder(View v) {
@@ -97,45 +97,58 @@ public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.View
             mImage = (ImageView) v.findViewById(R.id.image);
         }
 
-        public void bindFileWrapper(final FileWrapper fileWrapper) {
-            mFileWrapper = fileWrapper;
-            mView.setChecked(mFileWrapper.isChosen());
-            File file = fileWrapper.getFile();
+        private void formatFile() {
+            mText1.setText(FilePropertyUtils.getResolvedName(mFile));
+            mImage.setImageDrawable(FileIconUtils.getIcon(mFile, mView.getContext()));
+        }
 
-            if (fileWrapper.getThumbImage() != null) {
-                mImage.setImageDrawable(fileWrapper.getThumbImage());
-                if (fileWrapper.getThumbName() != null) {
-                    mText1.setText(fileWrapper.getThumbName());
+        private void formatThumbFile() {
+            final ThumbFile thumbFile = (ThumbFile) mFile;
+
+            if (thumbFile.hasThumbImage()) {
+                mImage.setImageDrawable(thumbFile.getThumbImage());
+                if (thumbFile.hasThumbName()) {
+                    mText1.setText(thumbFile.getThumbName());
                 }
             } else {
-                mText1.setText(FilePropertyUtils.getResolvedName(file));
-                mImage.setImageDrawable(FileIconUtils.getIcon(file, mView.getContext()));
-                mThumbTask = ThumbTask.getThumbTask(file, mView.getContext(), new ThumbTask.OnThumbFoundListener() {
+                formatFile();
+                mThumbTask = ThumbTask.getThumbTask(thumbFile, mView.getContext(), new ThumbTask.OnThumbFoundListener() {
                     @Override
                     public void onNameFound(String name) {
                         mText1.setText(name);
-                        fileWrapper.setThumbName(name);
+                        thumbFile.setThumbName(name);
                     }
 
                     @Override
                     public void onImageFound(Drawable image) {
                         mImage.setImageDrawable(image);
-                        fileWrapper.setThumbImage(image);
+                        thumbFile.setThumbImage(image);
                     }
                 });
                 if (mThumbTask != null) {
                     mThumbTask.execute();
                 }
             }
-
-            mText2.setText(FilePropertyUtils.getPermissions(file));
-            mText3.setText(file.getModified());
-            mText4.setText(FilePropertyUtils.getHumanSize(file));
         }
 
-        public void unbindFileWrapper() {
-            if (mFileWrapper != null) {
-                mFileWrapper = null;
+        public void bindFile(File file) {
+            mFile = file;
+            mView.setChecked(mFile.isChosen());
+
+            if (mFile instanceof ThumbFile) {
+                formatThumbFile();
+            } else {
+                formatFile();
+            }
+
+            mText2.setText(FilePropertyUtils.getPermissions(mFile));
+            mText3.setText(FilePropertyUtils.getDate(mFile.getModified()));
+            mText4.setText(FilePropertyUtils.getHumanSize(mFile));
+        }
+
+        public void unbindFile() {
+            if (mFile != null) {
+                mFile = null;
                 if (mThumbTask != null) {
                     mThumbTask.cancel(true);
                     mThumbTask = null;

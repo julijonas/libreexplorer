@@ -17,29 +17,29 @@
  * along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lt.kikutis.libreexplorer.cmd;
+package lt.kikutis.libreexplorer.connection.shell;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import android.widget.Toast;
 
 import java.util.List;
 
 import lt.kikutis.libreexplorer.R;
-import lt.kikutis.libreexplorer.file.File;
+import lt.kikutis.libreexplorer.connection.Connection;
+import lt.kikutis.libreexplorer.connection.ConnectionManager;
+import lt.kikutis.libreexplorer.connection.OnFinishListener;
+import lt.kikutis.libreexplorer.connection.OnFinishListingListener;
+import lt.kikutis.libreexplorer.connection.shell.ListCommand;
+import lt.kikutis.libreexplorer.connection.shell.ShellFile;
+import lt.kikutis.libreexplorer.connection.shell.ShellSession;
 
-public class Commands {
-
-    private static final String TAG = "Commands";
-
-    private static Commands sInstance;
+public class ShellConnection implements Connection {
 
     private Context mContext;
     private ShellSession mShellSession;
 
-    private Commands(Context context) {
+    public ShellConnection(Context context) {
         mContext = context;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         boolean alwaysElevated = prefs.getBoolean(mContext.getString(R.string.key_always_elevated),
@@ -48,14 +48,6 @@ public class Commands {
         if (!isValidAlwaysElevated(alwaysElevated)) {
             prefs.edit().putBoolean(mContext.getString(R.string.key_always_elevated), false).apply();
         }
-    }
-
-    public static void initFromApplication(Context context) {
-        sInstance = new Commands(context);
-    }
-
-    public static Commands getInstance() {
-        return sInstance;
     }
 
     public static String escapeArgument(String arg) {
@@ -73,14 +65,7 @@ public class Commands {
         return sb.toString();
     }
 
-    public boolean isValidAlwaysElevated(boolean newValue) {
-        if (newValue && !mShellSession.isElevated() && !mShellSession.elevateShell()) {
-            reportElevationError();
-            return false;
-        }
-        return true;
-    }
-
+    @Override
     public void remove(List<String> paths, final OnFinishListener listener) {
         mShellSession.exec(makeCommand("rm -r", paths, null), true, new ShellSession.OnCommandFinishListener() {
             @Override
@@ -93,8 +78,9 @@ public class Commands {
         });
     }
 
-    public void move(List<String> paths, String destination, final OnFinishListener listener) {
-        mShellSession.exec(makeCommand("mv", paths, destination), true, new ShellSession.OnCommandFinishListener() {
+    @Override
+    public void move(List<String> sources, String destination, final OnFinishListener listener) {
+        mShellSession.exec(makeCommand("mv", sources, destination), true, new ShellSession.OnCommandFinishListener() {
             @Override
             public void onCommandFinish(List<String> lines, int exitCode) {
                 if (exitCode != 0) {
@@ -105,8 +91,9 @@ public class Commands {
         });
     }
 
-    public void copy(List<String> paths, String destination, final OnFinishListener listener) {
-        mShellSession.exec(makeCommand("cp", paths, destination), true, new ShellSession.OnCommandFinishListener() {
+    @Override
+    public void copy(List<String> sources, String destination, final OnFinishListener listener) {
+        mShellSession.exec(makeCommand("cp", sources, destination), true, new ShellSession.OnCommandFinishListener() {
             @Override
             public void onCommandFinish(List<String> lines, int exitCode) {
                 if (exitCode != 0) {
@@ -117,29 +104,30 @@ public class Commands {
         });
     }
 
-    public void list(String path, OnListedListener listener) {
-        new ListCommand(mShellSession, path, listener).list();
+    @Override
+    public void list(String path, OnFinishListingListener onFinishListingListener) {
+        new ListCommand(mShellSession, path, onFinishListingListener).list();
     }
 
-    private void reportError(String message) {
-        Log.e(TAG, "reportError: Reporting: " + message);
-        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+    @Override
+    public void open(String path) {
+        // TODO use this
     }
 
     private void reportElevationError() {
-        reportError(mContext.getString(R.string.elevation_error));
+        ConnectionManager.getInstance().reportError(mContext.getString(R.string.elevation_error));
     }
 
     public void reportError(List<String> lines, int exitCode) {
         String text = lines.isEmpty() ? mContext.getString(R.string.unknown_error) : lines.get(lines.size() - 1);
-        reportError(String.format("%s [%d]", text, exitCode));
+        ConnectionManager.getInstance().reportError(String.format("%s [%d]", text, exitCode));
     }
 
-    public interface OnListedListener {
-        void onListed(List<File> files);
-    }
-
-    public interface OnFinishListener {
-        void onFinish();
+    public boolean isValidAlwaysElevated(boolean newValue) {
+        if (newValue && !mShellSession.isElevated() && !mShellSession.elevateShell()) {
+            reportElevationError();
+            return false;
+        }
+        return true;
     }
 }

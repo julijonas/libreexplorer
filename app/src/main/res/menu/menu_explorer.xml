@@ -32,6 +32,10 @@
         android:title="@string/sort_by"
         app:showAsAction="never"/>
     <item
+        android:id="@+id/action_new_connection"
+        android:title="@string/new_connection"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/action_settings"
         android:title="@string/settings"
         app:showAsAction="never"/>

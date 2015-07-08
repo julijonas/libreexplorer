@@ -17,20 +17,8 @@
  * along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lt.kikutis.libreexplorer.file;
+package lt.kikutis.libreexplorer.connection;
 
-import java.util.Comparator;
-
-public class FileWrapperComparator implements Comparator<FileWrapper> {
-
-    private Comparator<File> mFileComparator;
-
-    public FileWrapperComparator(Comparator<File> fileComparator) {
-        mFileComparator = fileComparator;
-    }
-
-    @Override
-    public int compare(FileWrapper lhs, FileWrapper rhs) {
-        return mFileComparator.compare(lhs.getFile(), rhs.getFile());
-    }
+public interface OnFinishListener {
+    void onFinish();
 }

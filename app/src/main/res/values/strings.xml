@@ -83,6 +83,13 @@
     <string name="remove">Remove</string>
     <string name="remove_item">Remove \"%s\" from drawer?</string>
 
+    <!-- Connections -->
+    <string name="new_connection">New connection</string>
+    <string name="ftp">FTP</string>
+    <string name="ftp_long">File Transfer Protocol</string>
+    <string name="foobar">Foobar</string>
+    <string name="foobar_long">Foobar</string>
+
     <!-- Settings -->
     <string name="settings">Settings</string>
     <string name="about">About</string>

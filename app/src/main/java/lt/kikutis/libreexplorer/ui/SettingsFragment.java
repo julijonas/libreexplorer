@@ -25,7 +25,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
 import lt.kikutis.libreexplorer.R;
-import lt.kikutis.libreexplorer.cmd.Commands;
+import lt.kikutis.libreexplorer.connection.ConnectionManager;
 
 public class SettingsFragment extends PreferenceFragment {
 
@@ -46,7 +46,7 @@ public class SettingsFragment extends PreferenceFragment {
         findPreference(getString(R.string.key_always_elevated)).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                return Commands.getInstance().isValidAlwaysElevated((boolean) newValue);
+                return ConnectionManager.getInstance().getShellConnection().isValidAlwaysElevated((boolean) newValue);
             }
         });
 

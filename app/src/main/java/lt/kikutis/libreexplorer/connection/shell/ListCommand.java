@@ -17,17 +17,22 @@
  * along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lt.kikutis.libreexplorer.cmd;
+package lt.kikutis.libreexplorer.connection.shell;
 
 import android.util.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import lt.kikutis.libreexplorer.PathUtils;
-import lt.kikutis.libreexplorer.file.File;
+import lt.kikutis.libreexplorer.connection.ConnectionManager;
+import lt.kikutis.libreexplorer.connection.File;
+import lt.kikutis.libreexplorer.connection.OnFinishListingListener;
 
 public class ListCommand {
 
@@ -35,16 +40,17 @@ public class ListCommand {
 
     private static final String REGEX = "([-bcCdDlMnpPs?](?:[-r][-w][-sSx]){2}[-r][-w][-tTx]) +([^ ]+) +([^ ]+) +(?:(\\d+) +|\\d+, +\\d+ +)?([^ ]+ [^ ]+) +(.+)";
     private static final String ARROW = " -> ";
+    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm";
     private static final Pattern PATTERN = Pattern.compile(REGEX);
 
     private ShellSession mShellSession;
     private String mPath;
-    private Commands.OnListedListener mListener;
+    private OnFinishListingListener mListener;
     private List<File> mFiles;
-    private List<File> mLinks;
+    private List<ShellFile> mLinks;
     private List<String> mTargetPaths;
 
-    public ListCommand(ShellSession shellSession, String path, Commands.OnListedListener listener) {
+    public ListCommand(ShellSession shellSession, String path, OnFinishListingListener listener) {
         mShellSession = shellSession;
         mPath = path;
         mListener = listener;
@@ -56,11 +62,11 @@ public class ListCommand {
     public void list() {
         Log.v(TAG, "list: Starting listing: " + mPath);
 
-        mShellSession.exec(String.format("ls -la %s", Commands.escapeArgument(mPath)), true, new ShellSession.OnCommandFinishListener() {
+        mShellSession.exec(String.format("ls -la %s", ShellConnection.escapeArgument(mPath)), true, new ShellSession.OnCommandFinishListener() {
             @Override
             public void onCommandFinish(List<String> lines, int exitCode) {
                 if (exitCode != 0) {
-                    Commands.getInstance().reportError(lines, exitCode);
+                    ConnectionManager.getInstance().getShellConnection().reportError(lines, exitCode);
                     return;
                 }
 
@@ -74,18 +80,26 @@ public class ListCommand {
                             String group = matcher.group(3);
                             String sizeStr = matcher.group(4);
                             long size = sizeStr == null ? File.SIZE_UNKNOWN : Long.parseLong(sizeStr);
-                            String modified = matcher.group(5);
+                            String modifiedStr = matcher.group(5);
+
+                            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.US);
+                            long modified = File.MODIFIED_UNKNOWN;
+                            try {
+                                modified = sdf.parse(modifiedStr).getTime();
+                            } catch (ParseException e) {
+                                Log.e(TAG, "list: Could not parse date: " + modifiedStr);
+                            }
 
                             if (bits.charAt(0) == 'l') {
                                 int arrow = name.lastIndexOf(ARROW);
                                 String targetRelativePath = name.substring(arrow + ARROW.length());
                                 name = name.substring(0, arrow);
-                                File link = new File(name, mPath, bits, size, modified, user, group, targetRelativePath);
+                                ShellFile link = new ShellFile(name, mPath, bits, size, modified, user, group, targetRelativePath);
                                 mFiles.add(link);
                                 mLinks.add(link);
                                 mTargetPaths.add(link.getPath());
                             } else {
-                                mFiles.add(new File(name, mPath, bits, size, modified, user, group, null));
+                                mFiles.add(new ShellFile(name, mPath, bits, size, modified, user, group, null));
                             }
                         }
                     } else {
@@ -99,10 +113,10 @@ public class ListCommand {
 
     private void listTargets() {
         if (mLinks.isEmpty()) {
-            mListener.onListed(mFiles);
+            mListener.onFinish(mFiles);
             return;
         }
-        mShellSession.exec(Commands.makeCommand("ls -ld", mTargetPaths, null), false, new ShellSession.OnCommandFinishListener() {
+        mShellSession.exec(ShellConnection.makeCommand("ls -ld", mTargetPaths, null), false, new ShellSession.OnCommandFinishListener() {
             @Override
             public void onCommandFinish(List<String> lines, int exitCode) {
                 for (int i = lines.size() - 1; i >= 0; i--) {

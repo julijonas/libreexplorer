@@ -17,7 +17,7 @@
  * along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lt.kikutis.libreexplorer.file;
+package lt.kikutis.libreexplorer.connection.shell;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -27,9 +27,11 @@ import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
 
+import lt.kikutis.libreexplorer.connection.ThumbFile;
+
 public class VideoThumbTask extends ThumbTask {
 
-    protected VideoThumbTask(File file, Context context, OnThumbFoundListener listener) {
+    protected VideoThumbTask(ThumbFile file, Context context, OnThumbFoundListener listener) {
         super(file, context, listener);
     }
 
