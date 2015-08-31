@@ -19,7 +19,7 @@
 
 package lt.kikutis.libreexplorer.ui;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,10 +32,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import lt.kikutis.libreexplorer.menu.Place;
 import lt.kikutis.libreexplorer.DeviceUtils;
 import lt.kikutis.libreexplorer.PathUtils;
 import lt.kikutis.libreexplorer.R;
+import lt.kikutis.libreexplorer.menu.Place;
 import lt.kikutis.libreexplorer.presenter.OnFileSelectedListener;
 
 public class BreadcrumbsFragment extends Fragment {
@@ -54,9 +54,9 @@ public class BreadcrumbsFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mListener = (OnFileSelectedListener) activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mListener = (OnFileSelectedListener) context;
     }
 
     @Override

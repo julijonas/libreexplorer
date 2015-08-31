@@ -19,7 +19,7 @@
 
 package lt.kikutis.libreexplorer.ui;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -76,10 +76,10 @@ public class DrawerFragment extends Fragment implements
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mOnCopyMoveSelectedListener = (OnCopyMoveSelectedListener) activity;
-        mOnFileSelectedListener = (OnFileSelectedListener) activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mOnCopyMoveSelectedListener = (OnCopyMoveSelectedListener) context;
+        mOnFileSelectedListener = (OnFileSelectedListener) context;
     }
 
     @Override
