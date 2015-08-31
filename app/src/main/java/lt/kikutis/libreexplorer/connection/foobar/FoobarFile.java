@@ -24,7 +24,6 @@ import lt.kikutis.libreexplorer.connection.File;
 public class FoobarFile implements File {
 
     private int mNumber;
-    private boolean mChosen;
 
     public FoobarFile(int number) {
         mNumber = number;
@@ -113,21 +112,5 @@ public class FoobarFile implements File {
     @Override
     public boolean isHidden() {
         return false;
-    }
-
-    // TODO: Get rid of these
-    @Override
-    public boolean isChosen() {
-        return mChosen;
-    }
-
-    @Override
-    public void setChosen(boolean chosen) {
-        mChosen = chosen;
-    }
-
-    @Override
-    public void toggleChosen() {
-        mChosen = !mChosen;
     }
 }

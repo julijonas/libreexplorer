@@ -17,7 +17,7 @@
  * along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lt.kikutis.libreexplorer.connection.shell;
+package lt.kikutis.libreexplorer.connection;
 
 import android.content.Context;
 import android.content.pm.PackageManager;

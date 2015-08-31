@@ -40,16 +40,19 @@ import lt.kikutis.libreexplorer.PathHistory;
 import lt.kikutis.libreexplorer.PathUtils;
 import lt.kikutis.libreexplorer.PathVisit;
 import lt.kikutis.libreexplorer.R;
+import lt.kikutis.libreexplorer.SettingsManager;
 import lt.kikutis.libreexplorer.menu.Clip;
 import lt.kikutis.libreexplorer.menu.DrawerMenu;
 import lt.kikutis.libreexplorer.menu.Place;
 import lt.kikutis.libreexplorer.connection.ConnectionManager;
 import lt.kikutis.libreexplorer.connection.OnFinishListener;
 import lt.kikutis.libreexplorer.connection.Connection;
+import lt.kikutis.libreexplorer.presenter.OnFileCheckedListener;
+import lt.kikutis.libreexplorer.presenter.OnFileSelectedListener;
 
 public class ExplorerActivity extends AppCompatActivity implements
-        DirectoryFragment.OnFileSelectedListener,
-        DirectoryFragment.OnFileChosenListener,
+        OnFileSelectedListener,
+        OnFileCheckedListener,
         OpenAsFragment.OnMimeTypeSelectedListener,
         OpenWithFragment.OnSelectMimeTypeSelectedListener,
         SortByFragment.OnSortFieldSelectedListener,
@@ -100,7 +103,7 @@ public class ExplorerActivity extends AppCompatActivity implements
 
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            ArrayList<String> paths = mDirectoryFragment.getChosenPaths();
+            ArrayList<String> paths = mDirectoryFragment.getCheckedPaths();
             switch (item.getItemId()) {
                 case R.id.action_file_bookmark:
                     for (String path : paths) {
@@ -186,7 +189,7 @@ public class ExplorerActivity extends AppCompatActivity implements
             mHistory = new PathHistory(new PathVisit(((Place) mDrawerMenu.get(0)).getPath()));
         } else {
             mHistory = savedInstanceState.getParcelable(STATE_HISTORY);
-            if (!mDirectoryFragment.getChosenPaths().isEmpty()) {
+            if (!mDirectoryFragment.getCheckedPaths().isEmpty()) {
                 mActionMode = startSupportActionMode(mActionModeCallback);
             }
         }
@@ -221,7 +224,7 @@ public class ExplorerActivity extends AppCompatActivity implements
                 navigateUp();
                 break;
             case R.id.action_sort_by:
-                SortByFragment.newInstance(mDirectoryFragment.getSortField())
+                SortByFragment.newInstance(SettingsManager.getSortField())
                         .show(getSupportFragmentManager(), null);
                 break;
             case R.id.action_new_connection:
@@ -275,8 +278,8 @@ public class ExplorerActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onFileChosen() {
-        if (mDirectoryFragment.getChosenPaths().isEmpty()) {
+    public void onFileChecked() {
+        if (mDirectoryFragment.getCheckedPaths().isEmpty()) {
             mActionMode.finish();
         } else if (mActionMode == null) {
             mActionMode = startSupportActionMode(mActionModeCallback);
@@ -299,7 +302,11 @@ public class ExplorerActivity extends AppCompatActivity implements
 
     @Override
     public void onSortFieldSelected(int field, boolean reverse) {
-        mDirectoryFragment.sort(field, reverse);
+        PreferenceManager.getDefaultSharedPreferences(this).edit()
+                .putInt(getString(R.string.key_sort_field), field)
+                .putBoolean(getString(R.string.key_sort_reverse), reverse)
+                .apply();
+        mDirectoryFragment.sort();
     }
 
     @Override
@@ -340,12 +347,12 @@ public class ExplorerActivity extends AppCompatActivity implements
 
     private void ensureCleanState() {
         mActionModeOffWhenDrawerOpen = false;
-        mDirectoryFragment.getChosenPaths().clear();
+        mDirectoryFragment.getCheckedPaths().clear();
         mDrawerLayout.closeDrawer(GravityCompat.START);
     }
 
     private String getChosenCountSubtitle() {
-        int size = mDirectoryFragment.getChosenPaths().size();
+        int size = mDirectoryFragment.getCheckedPaths().size();
         return getResources().getQuantityString(R.plurals.files_selected, size, size);
     }
 

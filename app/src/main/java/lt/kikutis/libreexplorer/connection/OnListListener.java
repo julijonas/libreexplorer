@@ -19,42 +19,6 @@
 
 package lt.kikutis.libreexplorer.connection;
 
-public interface File {
-
-    long SIZE_UNKNOWN = -1;
-    long MODIFIED_UNKNOWN = -1;
-
-    String getPath();
-
-    String getFinalPath();
-
-    String getTargetRelativePath();
-
-    String getParentPath();
-
-    String getExtension();
-
-    boolean hasExtension();
-
-    String getName();
-
-    long getSize();
-
-    long getModified();
-
-    String getUser();
-
-    String getGroup();
-
-    String getBits();
-
-    boolean isDirectory();
-
-    boolean isExecutable();
-
-    boolean isLink();
-
-    boolean isBrokenLink();
-
-    boolean isHidden();
+public interface OnListListener extends OnFinishListener {
+    void onList(File file);
 }

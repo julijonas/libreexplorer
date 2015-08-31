@@ -17,10 +17,8 @@
  * along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lt.kikutis.libreexplorer.connection;
+package lt.kikutis.libreexplorer.presenter;
 
-import java.util.List;
-
-public interface OnFinishListingListener {
-    void onFinish(List<File> files);
+public interface OnFileCheckedListener {
+    void onFileChecked();
 }

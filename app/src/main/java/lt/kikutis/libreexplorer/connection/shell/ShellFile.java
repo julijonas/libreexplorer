@@ -45,7 +45,6 @@ public class ShellFile implements ThumbFile {
 
     private Drawable mThumbImage;
     private String mThumbName;
-    private boolean mChosen;  // TODO Get rid of this
 
     public ShellFile(String name, String parentPath, String bits, long size, long modified,
                      String user, String group, String targetRelativePath) {
@@ -183,21 +182,5 @@ public class ShellFile implements ThumbFile {
     @Override
     public boolean hasThumbName() {
         return mThumbName != null;
-    }
-
-    // TODO: Get rid of these
-    @Override
-    public boolean isChosen() {
-        return mChosen;
-    }
-
-    @Override
-    public void setChosen(boolean chosen) {
-        mChosen = chosen;
-    }
-
-    @Override
-    public void toggleChosen() {
-        mChosen = !mChosen;
     }
 }

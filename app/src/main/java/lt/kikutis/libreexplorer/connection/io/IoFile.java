@@ -25,7 +25,6 @@ import lt.kikutis.libreexplorer.connection.File;
 public class IoFile implements File {
 
     private java.io.File mIoFile;
-    private boolean mChosen;
 
     public IoFile(java.io.File ioFile) {
         mIoFile = ioFile;
@@ -125,21 +124,5 @@ public class IoFile implements File {
     @Override
     public boolean isHidden() {
         return mIoFile.isHidden();
-    }
-
-    // TODO: Get rid of these
-    @Override
-    public boolean isChosen() {
-        return mChosen;
-    }
-
-    @Override
-    public void setChosen(boolean chosen) {
-        mChosen = chosen;
-    }
-
-    @Override
-    public void toggleChosen() {
-        mChosen = !mChosen;
     }
 }

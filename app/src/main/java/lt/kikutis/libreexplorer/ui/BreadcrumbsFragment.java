@@ -36,10 +36,11 @@ import lt.kikutis.libreexplorer.menu.Place;
 import lt.kikutis.libreexplorer.DeviceUtils;
 import lt.kikutis.libreexplorer.PathUtils;
 import lt.kikutis.libreexplorer.R;
+import lt.kikutis.libreexplorer.presenter.OnFileSelectedListener;
 
 public class BreadcrumbsFragment extends Fragment {
 
-    private DirectoryFragment.OnFileSelectedListener mListener;
+    private OnFileSelectedListener mListener;
 
     private LinearLayout mLinearLayout;
     private HorizontalScrollView mScrollView;
@@ -55,7 +56,7 @@ public class BreadcrumbsFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mListener = (DirectoryFragment.OnFileSelectedListener) activity;
+        mListener = (OnFileSelectedListener) activity;
     }
 
     @Override

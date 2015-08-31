@@ -20,13 +20,21 @@
 <resources>
 
     <string name="key_about" translatable="false">about</string>
-    <string name="key_always_elevated" translatable="false">always_elevated</string>
-    <string name="key_confirm_deletion" translatable="false">confirm_deletion</string>
-    <string name="key_show_hidden_files" translatable="false">show_hidden_files</string>
 
+    <string name="key_always_elevated" translatable="false">always_elevated</string>
     <bool name="default_always_elevated">false</bool>
+
+    <string name="key_confirm_deletion" translatable="false">confirm_deletion</string>
     <bool name="default_confirm_deletion">true</bool>
+
+    <string name="key_show_hidden_files" translatable="false">show_hidden_files</string>
     <bool name="default_show_hidden_files">true</bool>
+
+    <string name="key_sort_field" translatable="false">sort_field</string>
+    <integer name="default_sort_field">0</integer>
+
+    <string name="key_sort_reverse" translatable="false">sort_reverse</string>
+    <bool name="default_sort_reverse">false</bool>
 
     <string name="key_places_size" translatable="false">places_size</string>
     <string name="key_place_name" translatable="false">place_%d_name</string>

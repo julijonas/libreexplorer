@@ -23,8 +23,6 @@ import lt.kikutis.libreexplorer.connection.File;
 
 public class FtpFile implements File {
 
-    private boolean mChosen;
-
     @Override
     public String getPath() {
         return null;
@@ -108,21 +106,5 @@ public class FtpFile implements File {
     @Override
     public boolean isHidden() {
         return false;
-    }
-
-    // TODO: Get rid of these
-    @Override
-    public boolean isChosen() {
-        return mChosen;
-    }
-
-    @Override
-    public void setChosen(boolean chosen) {
-        mChosen = chosen;
-    }
-
-    @Override
-    public void toggleChosen() {
-        mChosen = !mChosen;
     }
 }

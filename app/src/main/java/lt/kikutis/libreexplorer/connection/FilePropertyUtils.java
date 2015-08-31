@@ -17,12 +17,10 @@
  * along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lt.kikutis.libreexplorer.connection.shell;
+package lt.kikutis.libreexplorer.connection;
 
 import java.text.DateFormat;
 import java.util.Date;
-
-import lt.kikutis.libreexplorer.connection.File;
 
 public class FilePropertyUtils {
 

@@ -29,10 +29,7 @@ import lt.kikutis.libreexplorer.R;
 import lt.kikutis.libreexplorer.connection.Connection;
 import lt.kikutis.libreexplorer.connection.ConnectionManager;
 import lt.kikutis.libreexplorer.connection.OnFinishListener;
-import lt.kikutis.libreexplorer.connection.OnFinishListingListener;
-import lt.kikutis.libreexplorer.connection.shell.ListCommand;
-import lt.kikutis.libreexplorer.connection.shell.ShellFile;
-import lt.kikutis.libreexplorer.connection.shell.ShellSession;
+import lt.kikutis.libreexplorer.connection.OnListListener;
 
 public class ShellConnection implements Connection {
 
@@ -105,8 +102,8 @@ public class ShellConnection implements Connection {
     }
 
     @Override
-    public void list(String path, OnFinishListingListener onFinishListingListener) {
-        new ListCommand(mShellSession, path, onFinishListingListener).list();
+    public void list(String path, OnListListener onListListener) {
+        new ListCommand(mShellSession, path, onListListener).list();
     }
 
     @Override

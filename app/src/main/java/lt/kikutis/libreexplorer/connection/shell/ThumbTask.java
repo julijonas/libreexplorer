@@ -25,6 +25,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import lt.kikutis.libreexplorer.R;
+import lt.kikutis.libreexplorer.connection.FileIconUtils;
 import lt.kikutis.libreexplorer.connection.ThumbFile;
 
 public abstract class ThumbTask extends AsyncTask<Void, Void, Drawable> {

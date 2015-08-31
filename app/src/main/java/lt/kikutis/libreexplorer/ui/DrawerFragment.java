@@ -39,6 +39,7 @@ import lt.kikutis.libreexplorer.R;
 import lt.kikutis.libreexplorer.menu.Clip;
 import lt.kikutis.libreexplorer.menu.DrawerMenu;
 import lt.kikutis.libreexplorer.menu.Place;
+import lt.kikutis.libreexplorer.presenter.OnFileSelectedListener;
 import lt.kikutis.libreexplorer.ui.adapter.DrawerAdapter;
 
 public class DrawerFragment extends Fragment implements
@@ -49,7 +50,7 @@ public class DrawerFragment extends Fragment implements
     private DrawerMenu mDrawerMenu;
 
     private OnCopyMoveSelectedListener mOnCopyMoveSelectedListener;
-    private DirectoryFragment.OnFileSelectedListener mOnFileSelectedListener;
+    private OnFileSelectedListener mOnFileSelectedListener;
 
     private RecyclerView.LayoutManager mLayoutManager;
     private DrawerAdapter mAdapter;
@@ -78,7 +79,7 @@ public class DrawerFragment extends Fragment implements
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mOnCopyMoveSelectedListener = (OnCopyMoveSelectedListener) activity;
-        mOnFileSelectedListener = (DirectoryFragment.OnFileSelectedListener) activity;
+        mOnFileSelectedListener = (OnFileSelectedListener) activity;
     }
 
     @Override

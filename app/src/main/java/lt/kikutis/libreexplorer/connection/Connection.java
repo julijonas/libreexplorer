@@ -29,7 +29,7 @@ public interface Connection {
 
     void copy(List<String> sources, String destination, OnFinishListener onFinishListener);
 
-    void list(String path, OnFinishListingListener onFinishListingListener);
+    void list(String path, OnListListener onListListener);
 
     void open(String path);
 }

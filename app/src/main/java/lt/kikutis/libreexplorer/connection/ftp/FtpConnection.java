@@ -28,8 +28,7 @@ import java.util.List;
 import lt.kikutis.libreexplorer.connection.Connection;
 import lt.kikutis.libreexplorer.connection.ConnectionManager;
 import lt.kikutis.libreexplorer.connection.OnFinishListener;
-import lt.kikutis.libreexplorer.connection.OnFinishListingListener;
-import lt.kikutis.libreexplorer.connection.foobar.FoobarFile;
+import lt.kikutis.libreexplorer.connection.OnListListener;
 
 public class FtpConnection implements Connection {
 
@@ -62,7 +61,7 @@ public class FtpConnection implements Connection {
     }
 
     @Override
-    public void list(String path, OnFinishListingListener onFinishListingListener) {
+    public void list(String path, OnListListener onListListener) {
 
     }
 

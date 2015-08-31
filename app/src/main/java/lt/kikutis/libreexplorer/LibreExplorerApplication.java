@@ -20,15 +20,23 @@
 package lt.kikutis.libreexplorer;
 
 import android.app.Application;
+import android.util.Log;
 
 import lt.kikutis.libreexplorer.connection.ConnectionManager;
 
 public class LibreExplorerApplication extends Application {
 
+    private static final String TAG = "LibreExplorer";
+
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Log.i(TAG, String.format("Starting LibreExplorer %s %s",
+                BuildConfig.BUILD_TYPE, BuildConfig.VERSION_NAME));
+
         DeviceUtils.propagateContext(this);
         ConnectionManager.propagateContext(this);
+        SettingsManager.propagateContext(this);
     }
 }

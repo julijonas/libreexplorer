@@ -17,44 +17,8 @@
  * along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lt.kikutis.libreexplorer.connection;
+package lt.kikutis.libreexplorer.presenter;
 
-public interface File {
-
-    long SIZE_UNKNOWN = -1;
-    long MODIFIED_UNKNOWN = -1;
-
-    String getPath();
-
-    String getFinalPath();
-
-    String getTargetRelativePath();
-
-    String getParentPath();
-
-    String getExtension();
-
-    boolean hasExtension();
-
-    String getName();
-
-    long getSize();
-
-    long getModified();
-
-    String getUser();
-
-    String getGroup();
-
-    String getBits();
-
-    boolean isDirectory();
-
-    boolean isExecutable();
-
-    boolean isLink();
-
-    boolean isBrokenLink();
-
-    boolean isHidden();
+public interface OnFileSelectedListener {
+    void onFileSelected(String path, boolean directory);
 }

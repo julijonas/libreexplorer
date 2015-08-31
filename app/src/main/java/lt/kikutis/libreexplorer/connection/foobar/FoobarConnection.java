@@ -21,13 +21,11 @@ package lt.kikutis.libreexplorer.connection.foobar;
 
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lt.kikutis.libreexplorer.connection.Connection;
-import lt.kikutis.libreexplorer.connection.File;
 import lt.kikutis.libreexplorer.connection.OnFinishListener;
-import lt.kikutis.libreexplorer.connection.OnFinishListingListener;
+import lt.kikutis.libreexplorer.connection.OnListListener;
 
 public class FoobarConnection implements Connection {
 
@@ -52,13 +50,11 @@ public class FoobarConnection implements Connection {
     }
 
     @Override
-    public void list(String path, OnFinishListingListener onFinishListingListener) {
+    public void list(String path, OnListListener onListListener) {
         Log.d(TAG, String.format("list: %s", path));
-        List<File> files = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
-            files.add(new FoobarFile(i));
+            onListListener.onList(new FoobarFile(i));
         }
-        onFinishListingListener.onFinish(files);
     }
 
     @Override

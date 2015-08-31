@@ -23,7 +23,7 @@ import java.util.List;
 
 import lt.kikutis.libreexplorer.connection.Connection;
 import lt.kikutis.libreexplorer.connection.OnFinishListener;
-import lt.kikutis.libreexplorer.connection.OnFinishListingListener;
+import lt.kikutis.libreexplorer.connection.OnListListener;
 
 public class IoConnection implements Connection {
 
@@ -43,7 +43,7 @@ public class IoConnection implements Connection {
     }
 
     @Override
-    public void list(String path, OnFinishListingListener onFinishListingListener) {
+    public void list(String path, OnListListener onListListener) {
 
     }
 
