@@ -21,61 +21,47 @@ package lt.kikutis.libreexplorer;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.os.Environment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 public class DeviceUtils {
 
     private static final String TAG = "DeviceUtils";
 
-    private static String sExternalPath;
-    private static String sSdCardPath;
-    private static String sSystemPath;
-    private static String sInternalPath;
+    private static String[] sExternalPaths;
 
     private DeviceUtils() {
     }
 
     public static void propagateContext(Context context) {
-        sExternalPath = Environment.getExternalStorageDirectory().getAbsolutePath();
-        sSdCardPath = System.getenv("SECONDARY_STORAGE");
-        if (sSdCardPath == null) {
-            java.io.File[] dirs = ContextCompat.getExternalFilesDirs(context, null);
-            if (dirs.length > 1 && dirs[1] != null) {
-                sSdCardPath = PathUtils.getNthParentPath(dirs[1].getAbsolutePath(), 4);
-            }
-        }
-        sSystemPath = System.getenv("ANDROID_ROOT");
-        if (sSystemPath == null) {
-            sSystemPath = "/system";
-        }
-        sInternalPath = "/data/data";
+        detectPaths(context);
+    }
 
-        Log.v(TAG, "propagateContext: External: " + sExternalPath);
-        Log.v(TAG, "propagateContext: SD card: " + sSdCardPath);
-        Log.v(TAG, "propagateContext: System: " + sSystemPath);
-        Log.v(TAG, "propagateContext: Internal: " + sInternalPath);
+    private static void detectPaths(Context context) {
+        java.io.File[] files = ContextCompat.getExternalFilesDirs(context, null);
+        sExternalPaths = new String[files.length];
+        for (int i = 0; i < files.length; i++) {
+            sExternalPaths[i] = PathUtils.getNthParentPath(files[i].getAbsolutePath(), 4);
+        }
     }
 
     public static String getExternalPath() {
-        return sExternalPath;
+        return sExternalPaths[0];
     }
 
     public static boolean hasSdCard() {
-        return sSdCardPath != null;
+        return sExternalPaths.length > 1;
     }
 
     public static String getSdCardPath() {
-        return sSdCardPath;
+        return sExternalPaths[1];
     }
 
     public static String getSystemPath() {
-        return sSystemPath;
+        return "/system";
     }
 
     public static String getInternalPath() {
-        return sInternalPath;
+        return "/data/data";
     }
 
     public static boolean isTablet(Context context) {
