@@ -92,7 +92,6 @@ public class ListCommand {
                                 String targetRelativePath = name.substring(arrow + ARROW.length());
                                 name = name.substring(0, arrow);
                                 ShellFile link = new ShellFile(name, mPath, bits, size, modified, user, group, targetRelativePath);
-                                mListener.onList(link);
                                 mLinks.add(link);
                                 mTargetPaths.add(link.getPath());
                             } else {
@@ -103,7 +102,6 @@ public class ListCommand {
                         Log.e(TAG, "list: Could not match line: " + line);
                     }
                 }
-                mListener.onFinish();
                 listTargets();
             }
         });
@@ -111,6 +109,7 @@ public class ListCommand {
 
     private void listTargets() {
         if (mLinks.isEmpty()) {
+            mListener.onFinish();
             return;
         }
         mShellSession.exec(ShellConnection.makeCommand("ls -ld", mTargetPaths, null), false, new ShellSession.OnCommandFinishListener() {
@@ -128,10 +127,12 @@ public class ListCommand {
                                     PathUtils.getParentPath(mTargetPaths.get(i))));
                         } else {
                             mLinks.get(i).setFinalTargetDetails(targetBits, mTargetPaths.get(i));
+                            mListener.onList(mLinks.get(i));
                             mLinks.remove(i);
                             mTargetPaths.remove(i);
                         }
                     } else {
+                        mListener.onList(mLinks.get(i));
                         mLinks.remove(i);
                         mTargetPaths.remove(i);
                         Log.e(TAG, "listTargets: Could not match line: " + lines.get(i));
