@@ -18,7 +18,7 @@ This file manager was built with free software in mind. It features:
 
 ## License
 
-    Copyright 2015 Julijonas Kikutis
+    Copyright 2015, 2016 Julijonas Kikutis
 
     Libre Explorer is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
