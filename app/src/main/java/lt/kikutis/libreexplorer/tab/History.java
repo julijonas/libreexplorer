@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Julijonas Kikutis
+ * Copyright 2016 Julijonas Kikutis
  *
  * This file is part of Libre Explorer.
  *
@@ -17,7 +17,7 @@
  * along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lt.kikutis.libreexplorer;
+package lt.kikutis.libreexplorer.tab;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -25,31 +25,33 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PathHistory implements Parcelable {
+import lt.kikutis.libreexplorer.PathUtils;
 
-    public static final Parcelable.Creator<PathHistory> CREATOR = new Creator<PathHistory>() {
+public class History implements Parcelable {
+
+    public static final Parcelable.Creator<History> CREATOR = new Creator<History>() {
         @Override
-        public PathHistory createFromParcel(Parcel source) {
-            return new PathHistory(source);
+        public History createFromParcel(Parcel source) {
+            return new History(source);
         }
 
         @Override
-        public PathHistory[] newArray(int size) {
-            return new PathHistory[size];
+        public History[] newArray(int size) {
+            return new History[size];
         }
     };
 
-    private List<PathVisit> mList;
+    private List<Visit> mList;
     private int mCurrent;
 
-    public PathHistory(PathVisit pathVisit) {
+    public History(Visit visit) {
         mList = new ArrayList<>();
-        mList.add(pathVisit);
+        mList.add(visit);
         mCurrent = 0;
     }
 
-    private PathHistory(Parcel source) {
-        source.readTypedList(mList, PathVisit.CREATOR);
+    private History(Parcel source) {
+        source.readTypedList(mList, Visit.CREATOR);
         mCurrent = source.readInt();
     }
 
@@ -58,7 +60,7 @@ public class PathHistory implements Parcelable {
             mList.subList(mCurrent + 1, mList.size()).clear();
         }
         mCurrent++;
-        mList.add(new PathVisit(path));
+        mList.add(new Visit(path));
     }
 
     public void back() {
@@ -86,7 +88,7 @@ public class PathHistory implements Parcelable {
         return mCurrent < mList.size() - 1;
     }
 
-    public PathVisit current() {
+    public Visit current() {
         return mList.get(mCurrent);
     }
 

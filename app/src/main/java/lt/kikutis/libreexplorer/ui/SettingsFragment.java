@@ -46,7 +46,7 @@ public class SettingsFragment extends PreferenceFragment {
         findPreference(getString(R.string.key_always_elevated)).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                return ConnectionManager.getInstance().getShellConnection().isValidAlwaysElevated((boolean) newValue);
+                return ConnectionManager.getInstance().getLocalConnection().isValidAlwaysElevated((boolean) newValue);
             }
         });
 

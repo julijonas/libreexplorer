@@ -20,6 +20,7 @@
 package lt.kikutis.libreexplorer.ui.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,11 +29,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import lt.kikutis.libreexplorer.R;
-import lt.kikutis.libreexplorer.connection.ftp.FtpConnection;
-import lt.kikutis.libreexplorer.connection.foobar.FoobarConnection;
 import lt.kikutis.libreexplorer.connection.Connection;
+import lt.kikutis.libreexplorer.connection.ConnectionUtils;
 
 public class ConnectionAdapter extends BaseAdapter {
+
+    private static final String TAG = "ConnectionAdapter";
 
     private Context mContext;
 
@@ -42,7 +44,7 @@ public class ConnectionAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return ConnectionUtils.CONNECTION_CLASSES.length;
     }
 
     @Override
@@ -72,16 +74,8 @@ public class ConnectionAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
 
-        switch (position) {
-            case 0:
-                holder.mText1.setText(R.string.ftp);
-                holder.mText2.setText(R.string.ftp_long);
-                break;
-            case 1:
-                holder.mText1.setText(R.string.foobar);
-                holder.mText2.setText(R.string.foobar_long);
-                break;
-        }
+        holder.mText1.setText(ConnectionUtils.CONNECTION_SHORT_NAME_RESIDS[position]);
+        holder.mText2.setText(ConnectionUtils.CONNECTION_LONG_NAME_RESIDS[position]);
 
         holder.mImage.setImageResource(R.drawable.ic_application_archive);
 
@@ -89,11 +83,12 @@ public class ConnectionAdapter extends BaseAdapter {
     }
 
     public Connection getConnection(int position) {
-        switch (position) {
-            case 0:
-                return new FtpConnection("hostname", 1234);
-            case 1:
-                return new FoobarConnection();
+        try {
+            return (Connection) ConnectionUtils.CONNECTION_CLASSES[position].newInstance();
+        } catch (InstantiationException e) {
+            Log.e(TAG, "getConnection: Connection instantiation", e);
+        } catch (IllegalAccessException e) {
+            Log.e(TAG, "getConnection: Connection illegal access", e);
         }
         return null;
     }

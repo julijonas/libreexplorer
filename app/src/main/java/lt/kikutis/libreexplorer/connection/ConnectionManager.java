@@ -20,10 +20,8 @@
 package lt.kikutis.libreexplorer.connection;
 
 import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
 
-import lt.kikutis.libreexplorer.connection.shell.ShellConnection;
+import lt.kikutis.libreexplorer.connection.local.LocalConnection;
 
 public class ConnectionManager {
 
@@ -32,11 +30,11 @@ public class ConnectionManager {
     private static ConnectionManager sInstance;
 
     private Context mContext;
-    private ShellConnection mShellConnection;
+    private LocalConnection mLocalConnection;
 
     private ConnectionManager(Context context) {
         mContext = context;
-        mShellConnection = new ShellConnection(mContext);
+        mLocalConnection = new LocalConnection(mContext);
     }
 
     public static ConnectionManager getInstance() {
@@ -51,17 +49,9 @@ public class ConnectionManager {
         return mContext;
     }
 
-    public ShellConnection getShellConnection() {
-        return mShellConnection;
+    public LocalConnection getLocalConnection() {
+        return mLocalConnection;
     }
 
-    public void reportError(String message) {
-        Log.e(TAG, "reportError: " + message);
-        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
-    }
 
-    public void reportError(Exception e) {
-        Log.e(TAG, "reportError: An exception", e);
-        Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
-    }
 }

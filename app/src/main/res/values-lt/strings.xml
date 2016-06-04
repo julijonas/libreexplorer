@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   Copyright 2015 Julijonas Kikutis
 
@@ -70,5 +71,21 @@
         <item>Pakeitimą</item>
     </string-array>
     <string name="unknown_error">Nežinoma komandos klaida</string>
+    <string name="clipboard">Iškarpinė</string>
+    <string name="bookmark">Pasižymėti</string>
+    <string name="copy">Kopijuoti</string>
+    <string name="cut">Iškirpti</string>
+    <string name="editor">Redaktorius</string>
+    <string name="empty_file">(tuščias failas)</string>
+    <string name="new_connection">Nauja jungtis</string>
+    <string name="new_file">Naujas failas</string>
+    <string name="paste">Įterpti</string>
+    <string name="remove">Pašalinti</string>
+    <string name="remove_item">Pašalinti \"%S\" iš juostos?</string>
+    <string name="save">Išsaugoti</string>
+    <string name="save_as">Išsaugoti kaip</string>
+    <string name="untitled_file">Failas be pavadinimo</string>
+    <string name="show_hidden_files">Rodyti paslėptus failus</string>
+    <string name="show_hidden_files_summary">Rodyti failus prasidedančius tašku</string>
 
 </resources>

@@ -19,17 +19,38 @@
 
 package lt.kikutis.libreexplorer.connection;
 
+import android.support.v4.util.SimpleArrayMap;
+
 import java.util.List;
 
-public interface Connection {
+import lt.kikutis.libreexplorer.connection.param.Parameter;
 
-    void remove(List<String> paths, OnFinishListener onFinishListener);
+public abstract class Connection {
+    private SimpleArrayMap<Integer, Parameter> mParameters;
 
-    void move(List<String> sources, String destination, OnFinishListener onFinishListener);
+    public Connection() {
+        mParameters = new SimpleArrayMap<>();
+    }
 
-    void copy(List<String> sources, String destination, OnFinishListener onFinishListener);
+    public void addParameter(int identifier, Parameter parameter) {
+        mParameters.put(identifier, parameter);
+    }
 
-    void list(String path, OnListListener onListListener);
+    public Parameter getParameter(int identifier) {
+        return mParameters.get(identifier);
+    }
 
-    void open(String path);
+    public abstract void remove(List<String> paths, OnFinishListener onFinishListener);
+
+    public abstract void move(List<String> sources, String destination, OnFinishListener onFinishListener);
+
+    public abstract void copy(List<String> sources, String destination, OnFinishListener onFinishListener);
+
+    public abstract void list(String path, OnListListener onListListener);
+
+    public abstract void open(String path);
+
+    public abstract void write(String path, String content);
+
+    public abstract String read(String path);
 }

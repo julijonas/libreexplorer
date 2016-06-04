@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   Copyright 2015 Julijonas Kikutis
 
@@ -17,13 +18,14 @@
   along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-          android:layout_width="wrap_content"
-          android:layout_height="match_parent"
-          android:background="?attr/selectableItemBackground"
-          android:drawablePadding="@dimen/breadcrumb_drawable_padding"
-          android:gravity="center"
-          android:paddingLeft="@dimen/breadcrumb_padding"
-          android:paddingRight="@dimen/breadcrumb_padding"
-          android:textColor="@color/light_text"
-          android:textSize="@dimen/abc_text_size_title_material_toolbar"/>
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="?attr/selectableItemBackground"
+    android:drawablePadding="@dimen/breadcrumb_drawable_padding"
+    android:gravity="center"
+    android:paddingLeft="@dimen/breadcrumb_padding"
+    android:paddingRight="@dimen/breadcrumb_padding"
+    android:textColor="@color/light_text"
+    android:textSize="@dimen/abc_text_size_title_material_toolbar"/>

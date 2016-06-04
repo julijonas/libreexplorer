@@ -17,26 +17,31 @@
  * along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lt.kikutis.libreexplorer.connection.shell;
+package lt.kikutis.libreexplorer.connection.local;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
+import lt.kikutis.libreexplorer.Err;
 import lt.kikutis.libreexplorer.R;
 import lt.kikutis.libreexplorer.connection.Connection;
-import lt.kikutis.libreexplorer.connection.ConnectionManager;
 import lt.kikutis.libreexplorer.connection.OnFinishListener;
 import lt.kikutis.libreexplorer.connection.OnListListener;
 
-public class ShellConnection implements Connection {
+public class LocalConnection extends Connection {
 
+    private static final String TAG = "LocalConnection";
     private Context mContext;
     private ShellSession mShellSession;
 
-    public ShellConnection(Context context) {
+    public LocalConnection(Context context) {
         mContext = context;
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         boolean alwaysElevated = prefs.getBoolean(mContext.getString(R.string.key_always_elevated),
@@ -111,13 +116,27 @@ public class ShellConnection implements Connection {
         // TODO use this
     }
 
+    @Override
+    public void write(String path, String content) {
+        try {
+            new FileWriter(path).write(content);
+        } catch (IOException e) {
+            Log.e(TAG, "write: Writing file", e);
+        }
+    }
+
+    @Override
+    public String read(String path) {
+        return null;
+    }
+
     private void reportElevationError() {
-        ConnectionManager.getInstance().reportError(mContext.getString(R.string.elevation_error));
+        Err.e(TAG, R.string.elevation_error);
     }
 
     public void reportError(List<String> lines, int exitCode) {
         String text = lines.isEmpty() ? mContext.getString(R.string.unknown_error) : lines.get(lines.size() - 1);
-        ConnectionManager.getInstance().reportError(String.format("%s [%d]", text, exitCode));
+        Err.e(TAG, String.format(Locale.US, "%s [%d]", text, exitCode));
     }
 
     public boolean isValidAlwaysElevated(boolean newValue) {

@@ -40,16 +40,29 @@ import lt.kikutis.libreexplorer.presenter.OnFileSelectedListener;
 
 public class BreadcrumbsFragment extends Fragment {
 
+    private static final String TAG = "BreadcrumbsFragment";
+
+    private static final String ARG_PATH = "path";
+
     private OnFileSelectedListener mListener;
 
     private LinearLayout mLinearLayout;
     private HorizontalScrollView mScrollView;
+
+    public static BreadcrumbsFragment newInstance(String path) {
+        BreadcrumbsFragment fragment = new BreadcrumbsFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PATH, path);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_breadcrumbs, container, false);
         mScrollView = (HorizontalScrollView) v.findViewById(R.id.scroll_view);
         mLinearLayout = (LinearLayout) v.findViewById(R.id.linear_layout);
+        loadPath(getArguments().getString(ARG_PATH));
         return v;
     }
 

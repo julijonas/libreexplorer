@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Julijonas Kikutis
+ * Copyright 2016 Julijonas Kikutis
  *
  * This file is part of Libre Explorer.
  *
@@ -17,33 +17,33 @@
  * along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lt.kikutis.libreexplorer;
+package lt.kikutis.libreexplorer.tab;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class PathVisit implements Parcelable {
+public class Visit implements Parcelable {
 
-    public static final Parcelable.Creator<PathVisit> CREATOR = new Creator<PathVisit>() {
+    public static final Parcelable.Creator<Visit> CREATOR = new Creator<Visit>() {
         @Override
-        public PathVisit createFromParcel(Parcel source) {
-            return new PathVisit(source);
+        public Visit createFromParcel(Parcel source) {
+            return new Visit(source);
         }
 
         @Override
-        public PathVisit[] newArray(int size) {
-            return new PathVisit[size];
+        public Visit[] newArray(int size) {
+            return new Visit[size];
         }
     };
 
     private String mPath;
     private int mPosition;
 
-    public PathVisit(String path) {
+    public Visit(String path) {
         mPath = path;
     }
 
-    private PathVisit(Parcel source) {
+    private Visit(Parcel source) {
         mPath = source.readString();
         mPosition = source.readInt();
     }

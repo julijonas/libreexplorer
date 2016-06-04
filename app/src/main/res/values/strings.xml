@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   Copyright 2015 Julijonas Kikutis
 
@@ -80,15 +81,30 @@
     <string name="place_internal">Internal storage</string>
     <string name="place_system">System</string>
 
+    <string name="clipboard">Clipboard</string>
+
     <string name="remove">Remove</string>
     <string name="remove_item">Remove \"%s\" from drawer?</string>
 
     <!-- Connections -->
     <string name="new_connection">New connection</string>
-    <string name="ftp">FTP</string>
-    <string name="ftp_long">File Transfer Protocol</string>
-    <string name="foobar">Foobar</string>
-    <string name="foobar_long">Foobar</string>
+    <string name="ftp" translatable="false">FTP</string>
+    <string name="ftp_long" translatable="false">File Transfer Protocol</string>
+    <string name="foobar" translatable="false">Foobar</string>
+    <string name="foobar_long" translatable="false">Foobar</string>
+    <string name="cifs">CIFS</string>
+    <string name="cifs_long">Common Internet File System</string>
+    <string name="local">Local</string>
+    <string name="local_long">Local File System</string>
+    <string name="io">Java IO (deprecated)</string>
+
+    <!-- Editor -->
+    <string name="editor">Editor</string>
+    <string name="new_file">New file</string>
+    <string name="empty_file">(empty file)</string>
+    <string name="untitled_file">Untitled File</string>
+    <string name="save">Save</string>
+    <string name="save_as">Save As</string>
 
     <!-- Settings -->
     <string name="settings">Settings</string>
@@ -102,7 +118,7 @@
     <string name="show_hidden_files">Show hidden files</string>
     <string name="show_hidden_files_summary">Show files starting with dot</string>
 
-    <string name="copying" translatable="false">Copyright 2015 Julijonas Kikutis
+    <string name="copying" translatable="false">Copyright 2015-2016 Julijonas Kikutis
         \n\nLibre Explorer is free software: you can redistribute it and/or modify
         it under the terms of the GNU General Public License as published by
         the Free Software Foundation, either version 3 of the License, or
@@ -118,5 +134,9 @@
         \n\nhttp://www.gnu.org/licenses/gpl.html
         \n\nhttps://gitlab.com/julijonas/libreexplorer
     </string>
+    <string name="clip">Clip</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
 </resources>

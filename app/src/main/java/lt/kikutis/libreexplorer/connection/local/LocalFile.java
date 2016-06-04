@@ -17,14 +17,14 @@
  * along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lt.kikutis.libreexplorer.connection.shell;
+package lt.kikutis.libreexplorer.connection.local;
 
 import android.graphics.drawable.Drawable;
 
 import lt.kikutis.libreexplorer.PathUtils;
 import lt.kikutis.libreexplorer.connection.ThumbFile;
 
-public class ShellFile implements ThumbFile {
+public class LocalFile implements ThumbFile {
 
     private String mName;
     private String mParentPath;
@@ -46,7 +46,7 @@ public class ShellFile implements ThumbFile {
     private Drawable mThumbImage;
     private String mThumbName;
 
-    public ShellFile(String name, String parentPath, String bits, long size, long modified,
+    public LocalFile(String name, String parentPath, String bits, long size, long modified,
                      String user, String group, String targetRelativePath) {
         mName = name;
         mParentPath = parentPath;

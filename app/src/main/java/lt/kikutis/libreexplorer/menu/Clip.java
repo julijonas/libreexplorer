@@ -19,13 +19,11 @@
 
 package lt.kikutis.libreexplorer.menu;
 
-import android.app.Application;
-
 import java.util.List;
 
 import lt.kikutis.libreexplorer.PathUtils;
 
-public class Clip implements DrawerMenu.Item {
+public class Clip implements Item {
 
     private List<String> mFiles;
     private boolean mCut;

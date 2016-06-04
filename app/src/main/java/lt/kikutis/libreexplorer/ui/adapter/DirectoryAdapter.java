@@ -20,19 +20,19 @@
 package lt.kikutis.libreexplorer.ui.adapter;
 
 import android.graphics.drawable.Drawable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import lt.kikutis.libreexplorer.R;
 import lt.kikutis.libreexplorer.connection.FileIconUtils;
 import lt.kikutis.libreexplorer.connection.FilePropertyUtils;
 import lt.kikutis.libreexplorer.connection.ThumbFile;
-import lt.kikutis.libreexplorer.connection.shell.ThumbTask;
+import lt.kikutis.libreexplorer.connection.local.ThumbTask;
 import lt.kikutis.libreexplorer.presenter.DirectoryPresenter;
 import lt.kikutis.libreexplorer.ui.view.CheckableRelativeLayout;
 
@@ -98,7 +98,7 @@ public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.View
                 mPresenter.fileChecked();
             } else {
                 if (mWrap.getFile().isBrokenLink()) {
-                    Toast.makeText(v.getContext(), R.string.broken_link, Toast.LENGTH_SHORT).show();
+                    Snackbar.make(v.getRootView(), R.string.broken_link, Snackbar.LENGTH_SHORT).show();
                 } else {
                     mPresenter.fileSelected(mWrap.getFile());
                 }

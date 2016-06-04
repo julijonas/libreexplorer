@@ -25,12 +25,15 @@ import org.apache.commons.net.ftp.FTPClient;
 import java.io.IOException;
 import java.util.List;
 
+import lt.kikutis.libreexplorer.Err;
 import lt.kikutis.libreexplorer.connection.Connection;
 import lt.kikutis.libreexplorer.connection.ConnectionManager;
 import lt.kikutis.libreexplorer.connection.OnFinishListener;
 import lt.kikutis.libreexplorer.connection.OnListListener;
 
-public class FtpConnection implements Connection {
+public class FtpConnection extends Connection {
+
+    private static final String TAG = "FtpConnection";
 
     private Context mContext;
     private FTPClient mFtpClient;
@@ -41,7 +44,7 @@ public class FtpConnection implements Connection {
         try {
             mFtpClient.connect(hostname, port);
         } catch (IOException e) {
-            ConnectionManager.getInstance().reportError(e.getMessage());
+            Err.e(TAG, "Connecting", e);
         }
     }
 
@@ -68,5 +71,15 @@ public class FtpConnection implements Connection {
     @Override
     public void open(String path) {
 
+    }
+
+    @Override
+    public void write(String path, String content) {
+
+    }
+
+    @Override
+    public String read(String path) {
+        return null;
     }
 }

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   Copyright 2015 Julijonas Kikutis
 
@@ -68,5 +69,21 @@
         <item>Geändert</item>
     </string-array>
     <string name="unknown_error">Unbekannter Befehl Fehler</string>
+    <string name="bookmark">Merken</string>
+    <string name="clipboard">Zwischenablage</string>
+    <string name="copy">Kopieren</string>
+    <string name="cut">Festklammern</string>
+    <string name="editor">Editor</string>
+    <string name="empty_file">(leer Datei)</string>
+    <string name="new_connection">Neu Anschluss</string>
+    <string name="new_file">Neu Detei</string>
+    <string name="paste">Einfügen</string>
+    <string name="remove">Entfernen</string>
+    <string name="remove_item">Entfernen \"%s\" aus Schublade?</string>
+    <string name="save">Speichern</string>
+    <string name="save_as">Speichern als</string>
+    <string name="untitled_file">Titellos Datei</string>
+    <string name="show_hidden_files">Zeige versteckte Dateien</string>
+    <string name="show_hidden_files_summary">Anzeigen Dateien die mit einem Punkt beginnen</string>
 
 </resources>

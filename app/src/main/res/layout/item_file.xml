@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   Copyright 2015 Julijonas Kikutis
 
@@ -17,12 +18,13 @@
   along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<lt.kikutis.libreexplorer.ui.view.CheckableRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                          android:layout_width="match_parent"
-                                                          android:layout_height="wrap_content"
-                                                          android:background="@drawable/background_item_file"
-                                                          android:paddingLeft="5dp"
-                                                          android:paddingRight="5dp">
+<lt.kikutis.libreexplorer.ui.view.CheckableRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_item_file"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp">
 
     <ImageView
         android:id="@+id/image"
@@ -38,7 +40,7 @@
 
     <TextView
         android:id="@+id/text1"
-        style="@style/FileItemPrimaryText"
+        style="@style/AppTheme.FileItemPrimaryText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/image"
@@ -46,7 +48,7 @@
 
     <TextView
         android:id="@+id/text2"
-        style="@style/FileItemSecondaryText"
+        style="@style/AppTheme.FileItemSecondaryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/text1"
@@ -55,7 +57,7 @@
 
     <TextView
         android:id="@+id/text3"
-        style="@style/FileItemSecondaryText"
+        style="@style/AppTheme.FileItemSecondaryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -67,7 +69,7 @@
 
     <TextView
         android:id="@+id/text4"
-        style="@style/FileItemSecondaryText"
+        style="@style/AppTheme.FileItemSecondaryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

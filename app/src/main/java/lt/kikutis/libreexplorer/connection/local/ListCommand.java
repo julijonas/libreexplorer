@@ -17,7 +17,7 @@
  * along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package lt.kikutis.libreexplorer.connection.shell;
+package lt.kikutis.libreexplorer.connection.local;
 
 import android.util.Log;
 
@@ -46,7 +46,7 @@ public class ListCommand {
     private ShellSession mShellSession;
     private String mPath;
     private OnListListener mListener;
-    private List<ShellFile> mLinks;
+    private List<LocalFile> mLinks;
     private List<String> mTargetPaths;
 
     public ListCommand(ShellSession shellSession, String path, OnListListener listener) {
@@ -60,11 +60,11 @@ public class ListCommand {
     public void list() {
         Log.v(TAG, "list: Starting listing: " + mPath);
 
-        mShellSession.exec(String.format("ls -la %s", ShellConnection.escapeArgument(mPath)), true, new ShellSession.OnCommandFinishListener() {
+        mShellSession.exec(String.format("ls -la %s", LocalConnection.escapeArgument(mPath)), true, new ShellSession.OnCommandFinishListener() {
             @Override
             public void onCommandFinish(List<String> lines, int exitCode) {
                 if (exitCode != 0) {
-                    ConnectionManager.getInstance().getShellConnection().reportError(lines, exitCode);
+                    ConnectionManager.getInstance().getLocalConnection().reportError(lines, exitCode);
                     return;
                 }
 
@@ -91,11 +91,11 @@ public class ListCommand {
                                 int arrow = name.lastIndexOf(ARROW);
                                 String targetRelativePath = name.substring(arrow + ARROW.length());
                                 name = name.substring(0, arrow);
-                                ShellFile link = new ShellFile(name, mPath, bits, size, modified, user, group, targetRelativePath);
+                                LocalFile link = new LocalFile(name, mPath, bits, size, modified, user, group, targetRelativePath);
                                 mLinks.add(link);
                                 mTargetPaths.add(link.getPath());
                             } else {
-                                mListener.onList(new ShellFile(name, mPath, bits, size, modified, user, group, null));
+                                mListener.onList(new LocalFile(name, mPath, bits, size, modified, user, group, null));
                             }
                         }
                     } else {
@@ -112,7 +112,7 @@ public class ListCommand {
             mListener.onFinish();
             return;
         }
-        mShellSession.exec(ShellConnection.makeCommand("ls -ld", mTargetPaths, null), false, new ShellSession.OnCommandFinishListener() {
+        mShellSession.exec(LocalConnection.makeCommand("ls -ld", mTargetPaths, null), false, new ShellSession.OnCommandFinishListener() {
             @Override
             public void onCommandFinish(List<String> lines, int exitCode) {
                 for (int i = lines.size() - 1; i >= 0; i--) {

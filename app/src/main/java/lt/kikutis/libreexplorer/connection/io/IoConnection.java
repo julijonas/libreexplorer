@@ -25,7 +25,7 @@ import lt.kikutis.libreexplorer.connection.Connection;
 import lt.kikutis.libreexplorer.connection.OnFinishListener;
 import lt.kikutis.libreexplorer.connection.OnListListener;
 
-public class IoConnection implements Connection {
+public class IoConnection extends Connection {
 
     @Override
     public void remove(List<String> paths, OnFinishListener onFinishListener) {
@@ -50,5 +50,15 @@ public class IoConnection implements Connection {
     @Override
     public void open(String path) {
 
+    }
+
+    @Override
+    public void write(String path, String content) {
+
+    }
+
+    @Override
+    public String read(String path) {
+        return null;
     }
 }

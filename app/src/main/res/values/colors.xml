@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   Copyright 2015 Julijonas Kikutis
 
@@ -27,6 +28,7 @@
     <color name="drawer_background">#ffe8e8e8</color>
 
     <color name="light_text">#ffc6c6c6</color>
+    <color name="darker_text">#a9a9a9</color>
     <color name="dark_text">#ff3b3b3b</color>
 
     <color name="dark_item_pressed">#ff2c5886</color>

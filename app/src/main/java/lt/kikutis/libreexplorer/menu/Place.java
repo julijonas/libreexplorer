@@ -19,7 +19,7 @@
 
 package lt.kikutis.libreexplorer.menu;
 
-public class Place implements DrawerMenu.Item {
+public class Place implements Item {
 
     private String mName;
     private String mPath;

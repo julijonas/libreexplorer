@@ -131,7 +131,7 @@ public class DirectoryPresenter {
         final boolean showHidden = SettingsManager.getShowHiddenFiles();
         mList.clear();
         mList.beginBatchedUpdates();
-        ConnectionManager.getInstance().getShellConnection().list(path, new OnListListener() {
+        ConnectionManager.getInstance().getLocalConnection().list(path, new OnListListener() {
             @Override
             public void onList(File file) {
                 if (showHidden || !file.isHidden()) {

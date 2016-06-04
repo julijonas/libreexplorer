@@ -27,7 +27,7 @@ import lt.kikutis.libreexplorer.connection.Connection;
 import lt.kikutis.libreexplorer.connection.OnFinishListener;
 import lt.kikutis.libreexplorer.connection.OnListListener;
 
-public class FoobarConnection implements Connection {
+public class FoobarConnection extends Connection {
 
     private static final String TAG = "FoobarConnection";
 
@@ -60,5 +60,15 @@ public class FoobarConnection implements Connection {
     @Override
     public void open(String path) {
         Log.d(TAG, String.format("open: %s", path));
+    }
+
+    @Override
+    public void write(String path, String content) {
+
+    }
+
+    @Override
+    public String read(String path) {
+        return null;
     }
 }

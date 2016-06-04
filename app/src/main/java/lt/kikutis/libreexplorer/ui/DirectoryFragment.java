@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,10 +38,24 @@ import lt.kikutis.libreexplorer.ui.adapter.DirectoryAdapter;
 
 public class DirectoryFragment extends Fragment {
 
+    private static final String TAG = "DirectoryFragment";
+
+    private static final String ARG_PATH = "path";
+    private static final String ARG_POSITION = "position";
+
     private DirectoryPresenter mPresenter;
 
     private LinearLayoutManager mLayoutManager;
     private DirectoryAdapter mAdapter;
+
+    public static DirectoryFragment newInstance(String path, int position) {
+        DirectoryFragment fragment = new DirectoryFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PATH, path);
+        args.putInt(ARG_POSITION, position);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +83,8 @@ public class DirectoryFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setAdapter(mAdapter);
 
+        loadPath(getArguments().getString(ARG_PATH), getArguments().getInt(ARG_POSITION));
+
         return view;
     }
 
@@ -86,7 +103,11 @@ public class DirectoryFragment extends Fragment {
     }
 
     public int getPosition() {
-        return mLayoutManager.findFirstCompletelyVisibleItemPosition();
+        if (mLayoutManager == null) {
+            return 0;
+        } else {
+            return mLayoutManager.findFirstCompletelyVisibleItemPosition();
+        }
     }
 
     public ArrayList<String> getCheckedPaths() {

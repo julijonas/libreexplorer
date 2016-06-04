@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   Copyright 2015 Julijonas Kikutis
 
@@ -17,30 +18,26 @@
   along with Libre Explorer.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:clickable="true"
-              android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:background="@color/app_accent"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:paddingBottom="15dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="35dp"
+    tools:context=".ui.ExplorerActivity">
 
     <TextView
         android:id="@+id/drawer_device_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/app_accent"
         android:drawablePadding="10dp"
-        android:paddingBottom="15dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="35dp"
         android:textColor="@color/light_text"
         android:textSize="20sp"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/drawer_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/drawer_background"
-        android:scrollbars="vertical"/>
 
 </LinearLayout>
