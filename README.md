@@ -9,8 +9,8 @@ This file manager was built with free software in mind. It features:
 * Bookmarks.
 * Clipboard with multiple clips.
 
-[![Get it on Google Play](https://developer.android.com/images/brand/en_generic_rgb_wo_60.png)](https://play.google.com/store/apps/details?id=lt.kikutis.libreexplorer)
-[![Available on F-Droid](https://f-droid.org/wiki/images/d/d3/F-Droid-button_bigger.png)](https://f-droid.org/repository/browse/?fdid=lt.kikutis.libreexplorer)
+[![Get it on Google Play](https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png)](https://play.google.com/store/apps/details?id=lt.kikutis.libreexplorer)
+[![Available on F-Droid](https://f-droid.org/badge/get-it-on.png)](https://f-droid.org/repository/browse/?fdid=lt.kikutis.libreexplorer)
 
 ## License
 

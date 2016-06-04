@@ -31,7 +31,7 @@
         android:name=".LibreExplorerApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_folder_system"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity

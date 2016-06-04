@@ -125,14 +125,14 @@ public class DrawerManager implements NavigationView.OnNavigationItemSelectedLis
 
         for (int i = 0; i < mPredefinedPlaces.size(); i++) {
             Place place = mPredefinedPlaces.get(i);
-            MenuItem item = mMenu.add(R.id.drawer_predefined_places, Menu.NONE, i, place.getName());
+            MenuItem item = mMenu.add(R.id.drawer_predefined_places, Menu.NONE, Menu.NONE, place.getName());
             item.setIcon(R.drawable.ic_application_archive);
             item.setChecked(place.getPath().equals(mCurrentPath));
         }
 
         for (int i = 0; i < mCustomPlaces.size(); i++) {
             Place place = mCustomPlaces.get(i);
-            MenuItem item = mMenu.add(R.id.drawer_custom_places, Menu.NONE, i, place.getName());
+            MenuItem item = mMenu.add(R.id.drawer_custom_places, Menu.NONE, Menu.NONE, place.getName());
             item.setIcon(R.drawable.ic_application_archive);
             item.setChecked(place.getPath().equals(mCurrentPath));
         }
@@ -140,7 +140,7 @@ public class DrawerManager implements NavigationView.OnNavigationItemSelectedLis
         mClipsMenu.clear();
         for (int i = 0; i < mClips.size(); i++) {
             Clip clip = mClips.get(i);
-            MenuItem item = mClipsMenu.add(R.id.drawer_clipboard, Menu.NONE, i, clip.getName());
+            MenuItem item = mClipsMenu.add(R.id.drawer_clipboard, Menu.NONE, Menu.NONE, clip.getName());
             item.setIcon(R.drawable.ic_application_archive);
         }
     }
@@ -150,9 +150,9 @@ public class DrawerManager implements NavigationView.OnNavigationItemSelectedLis
         if (DeviceUtils.hasSdCard()) {
             mPredefinedPlaces.add(new Place(mContext.getString(R.string.place_sd_card), DeviceUtils.getSdCardPath()));
         }
-        mPredefinedPlaces.add(new Place(mContext.getString(R.string.place_root), "/"));
         mPredefinedPlaces.add(new Place(mContext.getString(R.string.place_internal), DeviceUtils.getInternalPath()));
         mPredefinedPlaces.add(new Place(mContext.getString(R.string.place_system), DeviceUtils.getSystemPath()));
+        mPredefinedPlaces.add(new Place(mContext.getString(R.string.place_root), "/"));
     }
 
     private void loadCustomPlaces() {
