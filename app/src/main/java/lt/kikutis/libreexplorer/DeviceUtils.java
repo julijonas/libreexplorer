@@ -53,7 +53,11 @@ public class DeviceUtils {
     }
 
     public static String getSdCardPath() {
-        return sExternalPaths[1];
+        if (sExternalPaths.length > 1) {
+            return sExternalPaths[1];
+        } else {
+            return null;
+        }
     }
 
     public static String getSystemPath() {
