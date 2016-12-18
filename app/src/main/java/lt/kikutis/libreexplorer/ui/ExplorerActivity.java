@@ -19,11 +19,13 @@
 
 package lt.kikutis.libreexplorer.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -33,12 +35,14 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -86,6 +90,7 @@ public class ExplorerActivity extends AppCompatActivity implements
 
     private ActionMode mActionMode;
 
+    private CoordinatorLayout mCoordinatorLayout;
     private TabManager mTabManager;
     private TabPagerAdapter mTabPagerAdapter;
     private ViewPager mViewPager;
@@ -226,6 +231,8 @@ public class ExplorerActivity extends AppCompatActivity implements
         assert mTabLayout != null;
         mTabLayout.setupWithViewPager(mViewPager);
 
+        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         assert fab != null;
         fab.setOnClickListener(new View.OnClickListener() {
@@ -271,6 +278,27 @@ public class ExplorerActivity extends AppCompatActivity implements
             case R.id.action_sort_by:
                 SortByFragment.newInstance(SettingsManager.getSortField())
                         .show(getSupportFragmentManager(), null);
+                break;
+            case R.id.action_new_folder:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                final EditText editText = new EditText(this);
+                editText.setHint(R.string.folder_name);
+                builder.setTitle(R.string.new_folder)
+                        .setView(editText)
+                        .setPositiveButton(R.string.create, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Snackbar.make(mCoordinatorLayout, R.string.folder_created, Snackbar.LENGTH_LONG)
+                                        .setAction(R.string.undo, new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+
+                                            }
+                                        })
+                                        .show();
+                            }
+                        })
+                        .show();
                 break;
             case R.id.action_new_file:
                 Intent intent = new Intent(this, EditorActivity.class);

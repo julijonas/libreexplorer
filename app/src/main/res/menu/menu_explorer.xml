@@ -35,6 +35,10 @@
         android:title="@string/sort_by"
         app:showAsAction="never"/>
     <item
+        android:id="@+id/action_new_folder"
+        android:title="@string/new_folder"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/action_new_file"
         android:title="@string/new_file"
         app:showAsAction="never"/>

@@ -32,13 +32,7 @@
 
     <style name="AppTheme.TabLayout" parent="Widget.Design.TabLayout">
         <item name="android:background">@color/app_primary</item>
-        <item name="tabTextAppearance">@style/AppTheme.TextAppearance.TabText</item>
-        <item name="tabSelectedTextColor">@color/light_text</item>
         <item name="tabIndicatorHeight">6dp</item>
-    </style>
-
-    <style name="AppTheme.TextAppearance.TabText" parent="TextAppearance.Design.Tab">
-        <item name="android:textColor">@color/light_text</item>
     </style>
 
     <style name="AppTheme.FileItemPrimaryText">
